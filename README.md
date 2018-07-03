@@ -47,6 +47,12 @@ Execute as seeders
 php artisan db:seed
 ````
 
+Execute os testes
+
+```
+phpunit
+````
+
 ## Screenshots
 
 ## Construído com
