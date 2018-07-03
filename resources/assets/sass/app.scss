@@ -1,0 +1,100 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
+@import url(https://fonts.googleapis.com/css?family=Karla:400,700);
+@import url(https://fonts.googleapis.com/css?family=Rancho);
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+/* =============
+   Common
+============= */
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: "Roboto", sans-serif;
+    background-color: #ecf0f1 !important;
+}
+
+/* =============
+   Bootstrap
+============= */
+input {
+    border-radius: 2px !important;
+}
+
+/* =============
+   Bootstrap
+============= */
+.m-b-30 {
+    margin-bottom: 30px;
+}
+
+/* =============
+   Menu
+============= */
+.top-nav {
+    background-color: #fff;
+
+    .nav-link {
+        color: #435966;
+    }
+
+    .top-bar-main {
+        padding: 10px 20px 10px 20px;
+        background: #435966;
+
+        .logo {
+            position: relative;
+            top: 5px;
+            float: left;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff !important;
+            text-transform: uppercase;
+        }
+
+        .nav-user {
+            float: right;
+
+            .nav-link {
+                color: #fff;
+            }
+        }
+    }
+
+    .navbar-custom {
+        padding: 10px 20px 10px 20px;
+        border-bottom: 1px solid #c9cccd;
+    }
+}
+
+/* =============
+   Login
+============= */
+.box-form-login {
+    margin: 30px auto 0;
+    padding: 10px 30px 10px;
+    width: 420px;
+    background: #fff;
+    box-shadow: 0px 0px 24px #dedede;
+    border: 1px solid #e5e5e5;
+
+    .login-header {
+        margin: 40px 0 20px;
+        padding-bottom: 9px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .btn-log-in {
+        padding: 5px 0px 5px 0px;
+        border-radius: 0px;
+        font-size: 15px;
+    }
+}
