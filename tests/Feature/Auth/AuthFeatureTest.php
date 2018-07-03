@@ -12,7 +12,7 @@ class AuthFeatureTest extends TestCase
     {
         $this->get(route('login'))
             ->assertStatus(200)
-            ->assertSee('E-mail')
+            ->assertSee('E-maillll')
             ->assertSee('Password')
             ->assertSee('Keep logged in')
             ->assertSee('Log In')
