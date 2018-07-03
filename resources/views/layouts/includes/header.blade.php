@@ -8,7 +8,7 @@
             @auth
                 <div class="dropdown nav-user">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        Hello, Rafael Zorn
+                        Hello, Rafael Zorn.
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
