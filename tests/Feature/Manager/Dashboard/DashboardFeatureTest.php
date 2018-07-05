@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Manager\Dashboard;
 
-use App\Forum\User\Models\User;
 use Tests\TestCase;
 
 class DashboardFeatureTest extends TestCase
