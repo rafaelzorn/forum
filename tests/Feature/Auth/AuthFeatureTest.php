@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class AuthFeatureTest extends TestCase
 {
-    public function test_shows_the_login_form()
+    public function test_show_the_login_form()
     {
         $this->get(route('login'))
             ->assertStatus(200)
@@ -19,7 +19,37 @@ class AuthFeatureTest extends TestCase
             ->assertSee('Forgot your password?');
     }
 
-    public function tests_throws_the_too_many_login_attempts_event()
+    public function test_if_login_successful()
+    {
+        $user = factory(User::class)->create();
+
+        $data = [
+            'email'    => $user->email,
+            'password' => 'secret'
+        ];
+
+        $this->post(route('login'), $data)
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.dashboard'));
+    }
+
+    public function test_can_show_dashboard_to_user()
+    {
+        $this->actingAs($this->user, 'web')
+            ->get(route('manager.dashboard'))
+            ->assertStatus(200);
+    }
+
+    public function test_errors_login_without_email_or_password()
+    {
+        $this->post('login', [])
+            ->assertSessionHasErrors([
+                'email'    => 'The email field is required.',
+                'password' => 'The password field is required.'
+            ]);
+    }
+
+    public function test_throws_the_event_when_too_many_attempts_login()
     {
         $this->expectsEvents(Lockout::class);
 
@@ -35,33 +65,28 @@ class AuthFeatureTest extends TestCase
         }
     }
 
-    public function tests_can_show_the_user_dashboard()
+    public function test_show_the_register_form()
     {
-        $this->actingAs($this->user, 'web')
-            ->get(route('dashboard'))
-            ->assertStatus(200);
+        $this->get(route('register'))
+            ->assertStatus(200)
+            ->assertSee('Name')
+            ->assertSee('E-mail')
+            ->assertSee('Password')
+            ->assertSee('Confirm Password')
+            ->assertSee('Register');
     }
 
-    public function tests_can_go_to_my_users_page_on_successful_login()
+    public function test_if_register_successful()
     {
-        $user = factory(User::class)->create();
-
         $data = [
-            'email'    => $user->email,
-            'password' => 'secret'
+            'name'                   => $this->faker->name,
+            'email'                  => $this->faker->email,
+            'password'               => 'secret',
+            'password_confirmation'  => 'secret'
         ];
 
-        $this->post(route('login'), $data)
+        $this->post(route('register'), $data)
             ->assertStatus(302)
-            ->assertRedirect(route('dashboard'));
-    }
-
-    public function tests_errors_when_the_users_is_logging_in_without_the_email_or_password()
-    {
-        $this->post('login', [])
-            ->assertSessionHasErrors([
-                'email'    => 'The email field is required.',
-                'password' => 'The password field is required.'
-            ]);
+            ->assertRedirect(route('manager.dashboard'));
     }
 }

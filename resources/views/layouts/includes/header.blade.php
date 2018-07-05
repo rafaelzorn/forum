@@ -35,10 +35,6 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom active" href="#">Dashboard</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="#">Categories</a>
-                </li>
             </ul>
         </div>
     @endauth

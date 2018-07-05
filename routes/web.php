@@ -13,10 +13,11 @@
 Auth::routes();
 
 Route::namespace('Manager')->group(function () {
-
     Route::group(['middleware' => ['auth']], function () {
+        Route::prefix('manager')->group(function () {
 
-        # DASHBOARD
-        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+            # DASHBOARD
+            Route::get('dashboard', 'DashboardController@index')->name('manager.dashboard');
+        });
     });
 });
