@@ -33,13 +33,6 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('manager.dashboard'));
     }
 
-    public function test_can_show_dashboard_to_user()
-    {
-        $this->actingAs($this->user, 'web')
-            ->get(route('manager.dashboard'))
-            ->assertStatus(200);
-    }
-
     public function test_errors_login_without_email_or_password()
     {
         $this->post('login', [])
@@ -65,6 +58,14 @@ class AuthFeatureTest extends TestCase
         }
     }
 
+    public function test_logout_successful()
+    {
+        $this->actingAs($this->user, 'web')
+            ->get(route('logout'))
+            ->assertStatus(302)
+            ->assertRedirect(route('home'));
+    }
+
     public function test_show_the_register_form()
     {
         $this->get(route('register'))
@@ -88,5 +89,15 @@ class AuthFeatureTest extends TestCase
         $this->post(route('register'), $data)
             ->assertStatus(302)
             ->assertRedirect(route('manager.dashboard'));
+    }
+
+    public function test_errors_register_no_filled_fields()
+    {
+        $this->post('register', [])
+            ->assertSessionHasErrors([
+                'name'     => 'The name field is required.',
+                'email'    => 'The email field is required.',
+                'password' => 'The password field is required.'
+            ]);
     }
 }

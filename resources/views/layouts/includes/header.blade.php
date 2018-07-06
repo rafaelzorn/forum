@@ -8,7 +8,7 @@
             @auth
                 <div class="dropdown nav-user">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        Hello, Rafael Zorn.
+                        Hello, {{ Auth::user()->name }}.
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
@@ -18,7 +18,7 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ route('logout') }}" class="dropdown-item">
                             Logout
                         </a>
                     </div>
@@ -29,13 +29,21 @@
         </div>
     </div>
 
-    @auth
-        <div class="navbar-custom">
-            <ul class="nav">
+    <div class="navbar-custom">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link nav-link-custom" href="{{ route('home') }}">Home</a>
+            </li>
+
+            @auth
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom active" href="#">Dashboard</a>
+                    <a class="nav-link nav-link-custom" href="{{ route('manager.dashboard') }}">Dashboard</a>
                 </li>
-            </ul>
-        </div>
-    @endauth
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="{{ route('manager.categories.index') }}">Categories</a>
+                </li>
+            @endauth
+        </ul>
+    </div>
 </header>

@@ -10,7 +10,6 @@ class DashboardFeatureTest extends TestCase
     {
         $this->actingAs($this->user, 'web')
             ->get(route('manager.dashboard'))
-            ->assertStatus(200)
-            ->assertSee('Dashboard');
+            ->assertStatus(200);
     }
 }

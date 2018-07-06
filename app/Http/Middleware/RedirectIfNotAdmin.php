@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class RedirectIfNotAdmin
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,15 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect(route('manager.dashboard'));
+        if (Auth::guard($guard)->check() && Auth::user()->isAdmin()) {
+            return $next($request);
         }
 
-        return $next($request);
+        $request->session()->flash('message',[
+            'type' 	  => 'warning',
+            'message' => 'You must be an administrator to see this page.'
+        ]);
+
+        return redirect()->back();
     }
 }

@@ -10423,6 +10423,18 @@ body {
   background-color: #ecf0f1 !important;
 }
 
+.page-title {
+  font-size: 20px;
+  margin-bottom: 0;
+  margin-top: 0;
+  line-height: 70px;
+  font-weight: 600;
+}
+
+.min-w-110 {
+  min-width: 110px;
+}
+
 /* =============
    Bootstrap
 ============= */
@@ -10431,12 +10443,32 @@ input {
   border-radius: 2px !important;
 }
 
+.table {
+  margin-bottom: 0 !important;
+}
+
+.btn {
+  border-radius: 1px !important;
+}
+
 /* =============
-   Bootstrap
+   Helpers
 ============= */
 
 .m-b-30 {
   margin-bottom: 30px;
+}
+
+.m-t-30 {
+  margin-top: 30px;
+}
+
+.m-t-15 {
+  margin-top: 15px;
+}
+
+.padding-10 {
+  padding: 10px;
 }
 
 /* =============

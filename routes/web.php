@@ -12,12 +12,26 @@
 */
 Auth::routes();
 
-Route::namespace('Manager')->group(function () {
-    Route::group(['middleware' => ['auth']], function () {
-        Route::prefix('manager')->group(function () {
+Route::namespace('Auth')->group(function () {
+    Route::get('logout', 'LoginController@logout')->name('logout');
+});
 
-            # DASHBOARD
-            Route::get('dashboard', 'DashboardController@index')->name('manager.dashboard');
+Route::group(['prefix' => 'manager', 'middleware' => ['auth'], 'as' => 'manager.' ], function () {
+    Route::namespace('Manager')->group(function () {
+
+        # DASHBOARD
+        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+        Route::group(['middleware' => ['admin']], function(){
+
+            # CATEGORIES
+            Route::resource('categories', 'CategoriesController');
         });
     });
+});
+
+Route::namespace('Site')->group(function () {
+
+    #HOME
+    Route::get('/', 'HomeController@index')->name('home');
 });
