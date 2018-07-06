@@ -9,9 +9,7 @@ class CategoryFeatureTest extends TestCase
 {
     public function test_show_the_categories_to_admin()
     {
-        $user = factory(User::class, 'admin')->create();
-
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->get(route('manager.categories.index'))
             ->assertStatus(200);
     }

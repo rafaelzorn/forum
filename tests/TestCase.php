@@ -12,8 +12,9 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseMigrations, DatabaseTransactions;
 
-    protected $user;
     protected $faker;
+    protected $user;
+    protected $admin;
 
     public function setUp()
     {
@@ -21,6 +22,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->faker = Faker::create();
         $this->user  = factory(User::class)->create();
+        $this->admin = factory(User::class, 'admin')->create();
     }
 
     public function tearDown()

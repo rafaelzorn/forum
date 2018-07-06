@@ -21,10 +21,8 @@ class AuthFeatureTest extends TestCase
 
     public function test_if_login_successful()
     {
-        $user = factory(User::class)->create();
-
         $data = [
-            'email'    => $user->email,
+            'email'    => $this->user->email,
             'password' => 'secret'
         ];
 
