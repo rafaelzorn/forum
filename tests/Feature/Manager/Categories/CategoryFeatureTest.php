@@ -9,7 +9,7 @@ class CategoryFeatureTest extends TestCase
 {
     public function test_show_the_categories_to_admin()
     {
-        $this->actingAs($this->admin)
+        $this->actingAs($this->admin, 'web')
             ->get(route('manager.categories.index'))
             ->assertStatus(200);
     }

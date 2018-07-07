@@ -3,7 +3,7 @@
 namespace App\Forum\Category\Services;
 
 use App\Forum\Category\Repositories\CategoryRepository;
-use Illuminate\Database\QueryException;
+use Exception;
 
 class CategoryService
 {
@@ -23,7 +23,7 @@ class CategoryService
                 'type' => 'success',
                 'message' => 'Category successfully registered.'
             ];
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
             return [
                 'type' => 'error',
                 'message' => 'Category error registered.'

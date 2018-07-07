@@ -31,6 +31,14 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('manager.dashboard'));
     }
 
+    public function test_redirect_user_authenticated()
+    {
+        $this->actingAs($this->user, 'web')
+            ->get(route('login'))
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.dashboard'));
+    }
+
     public function test_errors_login_without_email_or_password()
     {
         $this->post('login', [])
