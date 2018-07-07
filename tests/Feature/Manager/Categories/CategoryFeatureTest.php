@@ -24,4 +24,12 @@ class CategoryFeatureTest extends TestCase
                 'message' => 'You must be an administrator to see this page.'
             ]);
     }
+
+    public function test_show_the_create_category_page()
+    {
+        $this->actingAs($this->admin, 'web')
+            ->get(route('manager.categories.create'))
+            ->assertStatus(200)
+            ->assertViewHas(['currentPage', 'edit', 'category']);
+    }
 }
