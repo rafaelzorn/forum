@@ -3,9 +3,12 @@
 namespace App\Forum\Category\Models;
 
 use App\Forum\Base\Models\Base;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends Base
 {
+    use Sluggable;
+
     /**
      * The table associated with the model.
      *
@@ -20,15 +23,19 @@ class Category extends Base
      */
     protected $fillable = [
         'name',
-        'slug',
         'active',
     ];
 
     protected $dates = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
-        'active'   => 'boolean',
+        'active' => 'boolean',
     ];
+
+    public function sluggable()
+    {
+        return ['slug' => ['source' => 'name']];
+    }
 }

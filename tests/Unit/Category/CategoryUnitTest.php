@@ -36,6 +36,13 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals($data['active'], $category->active);
     }
 
+    public function test_can_list_all_the_categories()
+    {
+        factory(Category::class)->create();
+
+        $this->assertCount(1, $this->categoryRepository->all());
+    }
+
     public function test_service_store_categories_successful()
     {
         $data = [
