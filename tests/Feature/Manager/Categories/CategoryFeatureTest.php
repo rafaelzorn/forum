@@ -90,4 +90,30 @@ class CategoryFeatureTest extends TestCase
                 'active' => 'The situation field is required.'
             ]);
     }
+
+    public function test_if_destroy_category_successful()
+    {
+        $category = factory(Category::class)->create();
+
+        $this->actingAs($this->admin, 'web')
+            ->delete(route('manager.categories.destroy', $category->id))
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.categories.index'))
+            ->assertSessionHas('message', [
+                'type' => 'success',
+                'message' => 'Category deleted successfully.'
+            ]);
+    }
+
+    public function test_if_destroy_category_error()
+    {
+        $this->actingAs($this->admin, 'web')
+            ->delete(route('manager.categories.destroy', 999))
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.categories.index'))
+            ->assertSessionHas('message', [
+                'type' => 'error',
+                'message' => 'Category error deleted.'
+            ]);
+    }
 }

@@ -58,4 +58,16 @@ class CategoriesController extends Controller
 
         return redirect()->route('manager.categories.index');
     }
+
+    public function destroy($id)
+    {
+        $request = $this->categoryService->destroy($id);
+
+        session()->flash('message',[
+            'type' 	  => $request['type'],
+			'message' => $request['message']
+        ]);
+
+        return redirect()->route('manager.categories.index');
+    }
 }

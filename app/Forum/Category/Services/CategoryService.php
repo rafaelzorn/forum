@@ -17,7 +17,7 @@ class CategoryService
     public function store($data)
     {
         try {
-            $category = $this->categoryRepository->create($data);
+            $this->categoryRepository->create($data);
 
             return [
                 'type' => 'success',
@@ -27,6 +27,24 @@ class CategoryService
             return [
                 'type' => 'error',
                 'message' => 'Category error registered.'
+            ];
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $this->categoryRepository->findOrFail($id);
+            $this->categoryRepository->delete();
+
+            return [
+                'type' => 'success',
+                'message' => 'Category deleted successfully.'
+            ];
+        } catch (Exception $e) {
+            return [
+                'type' => 'error',
+                'message' => 'Category error deleted.'
             ];
         }
     }

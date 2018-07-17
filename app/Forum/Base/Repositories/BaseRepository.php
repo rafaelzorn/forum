@@ -27,4 +27,15 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->orderBy($orderBy, $sortBy)->get($columns);
     }
+
+    public function findOrfail(int $id)
+    {
+        $this->model = $this->model->findOrFail($id);
+        return $this->model;
+    }
+
+    public function delete()
+    {
+        return $this->model->delete();
+    }
 }
