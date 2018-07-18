@@ -14,6 +14,17 @@ class CategoryFeatureTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function test_should_not_show_categories_to_user()
+    {
+        $this->actingAs($this->user, 'web')
+            ->get(route('manager.categories.index'))
+            ->assertStatus(302)
+            ->assertSessionHas('message', [
+                'type' => 'warning',
+                'message' => 'You must be an administrator to see this page.'
+            ]);
+    }
+
     public function test_show_the_index_category_page()
     {
         $this->actingAs($this->admin, 'web')
@@ -31,17 +42,6 @@ class CategoryFeatureTest extends TestCase
             ->assertStatus(200)
             ->assertSee($category->name)
             ->assertSee($category->active);
-    }
-
-    public function test_should_not_show_categories_to_user()
-    {
-        $this->actingAs($this->user, 'web')
-            ->get(route('manager.categories.index'))
-            ->assertStatus(302)
-            ->assertSessionHas('message', [
-                'type' => 'warning',
-                'message' => 'You must be an administrator to see this page.'
-            ]);
     }
 
     public function test_show_the_create_category_page()
@@ -91,7 +91,7 @@ class CategoryFeatureTest extends TestCase
             ]);
     }
 
-    public function test_show_the_update_category_page()
+    public function test_show_the_edit_category_page()
     {
         $category = factory(Category::class)->create();
 
@@ -133,18 +133,6 @@ class CategoryFeatureTest extends TestCase
             ->assertSessionHas('message', [
                 'type' => 'success',
                 'message' => 'Category deleted successfully.'
-            ]);
-    }
-
-    public function test_if_destroy_category_error()
-    {
-        $this->actingAs($this->admin, 'web')
-            ->delete(route('manager.categories.destroy', 999))
-            ->assertStatus(302)
-            ->assertRedirect(route('manager.categories.index'))
-            ->assertSessionHas('message', [
-                'type' => 'error',
-                'message' => 'Category deleted error.'
             ]);
     }
 }
