@@ -43,6 +43,10 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom" href="{{ route('manager.categories.index') }}">Categories</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="">Topics</a>
+                </li>
             @endauth
         </ul>
     </div>
