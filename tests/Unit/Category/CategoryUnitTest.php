@@ -5,7 +5,6 @@ namespace Tests\Unit\Category;
 use App\Forum\Category\Models\Category;
 use App\Forum\Category\Repositories\CategoryRepository;
 use App\Forum\Category\Services\CategoryService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
 class CategoryUnitTest extends TestCase
@@ -25,7 +24,6 @@ class CategoryUnitTest extends TestCase
     {
         $data = [
             'name'   => 'Video Game',
-            'slug'   => 'video-game',
             'active' => 1
         ];
 
@@ -49,7 +47,6 @@ class CategoryUnitTest extends TestCase
 
         $data = [
             'name'   => 'Video Game',
-            'slug'   => 'video-game',
             'active' => 1
         ];
 

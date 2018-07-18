@@ -7,13 +7,6 @@ use Tests\TestCase;
 
 class CategoryFeatureTest extends TestCase
 {
-    public function test_show_the_categories_to_admin()
-    {
-        $this->actingAs($this->admin, 'web')
-            ->get(route('manager.categories.index'))
-            ->assertStatus(200);
-    }
-
     public function test_should_not_show_categories_to_user()
     {
         $this->actingAs($this->user, 'web')
@@ -63,11 +56,10 @@ class CategoryFeatureTest extends TestCase
             ->assertSee('Return');
     }
 
-    public function test_if_create_category_successful()
+    public function test_if_store_category_successful()
     {
         $data = [
             'name'   => 'Video Game',
-            'slug'   => 'video-game',
             'active' => 1
         ];
 
@@ -108,7 +100,6 @@ class CategoryFeatureTest extends TestCase
 
         $data = [
             'name'   => 'Video Game',
-            'slug'   => 'video-game',
             'active' => 1
         ];
 
