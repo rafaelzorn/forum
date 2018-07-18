@@ -62,7 +62,7 @@ class CategoryService
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Category error deleted.'
+                'message' => 'Category deleted error.'
             ];
         }
     }

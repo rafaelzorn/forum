@@ -144,7 +144,7 @@ class CategoryFeatureTest extends TestCase
             ->assertRedirect(route('manager.categories.index'))
             ->assertSessionHas('message', [
                 'type' => 'error',
-                'message' => 'Category error deleted.'
+                'message' => 'Category deleted error.'
             ]);
     }
 }
