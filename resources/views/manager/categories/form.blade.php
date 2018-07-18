@@ -37,8 +37,8 @@
                         <div class="col-xs-12">
                             <select class="form-control{{ $errors->has('active') ? ' is-invalid' : '' }}" name="active" id="active" required>
                                 <option value="">Select the situation</option>
-                                <option value="1" {{ old('active', $category->active) === 1 ? 'selected' : null }}>Active</option>
-                                <option value="0" {{ old('active', $category->active) === 0 ? 'selected' : null }}>Inactive</option>
+                                <option value="1" {{ old('active', $category->active) == 1 ? 'selected' : null }}>Active</option>
+                                <option value="0" {{ old('active', $category->active) == 0 ? 'selected' : null }}>Inactive</option>
                             </select>
 
                             @if ($errors->has('active'))

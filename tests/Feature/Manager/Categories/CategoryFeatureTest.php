@@ -91,6 +91,37 @@ class CategoryFeatureTest extends TestCase
             ]);
     }
 
+    public function test_show_the_update_category_page()
+    {
+        $category = factory(Category::class)->create();
+
+        $this->actingAs($this->admin, 'web')
+            ->get(route('manager.categories.edit', $category->id))
+            ->assertStatus(200)
+            ->assertViewHas(['currentPage', 'edit', 'category'])
+            ->assertSee($category->name);
+    }
+
+    public function test_if_update_category_successful()
+    {
+        $category = factory(Category::class)->create();
+
+        $data = [
+            'name'   => 'Video Game',
+            'slug'   => 'video-game',
+            'active' => 1
+        ];
+
+        $this->actingAs($this->admin, 'web')
+            ->put(route('manager.categories.update', $category->id), $data)
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.categories.index'))
+            ->assertSessionHas('message', [
+                'type' => 'success',
+                'message' => 'Category successfully updated.'
+            ]);
+    }
+
     public function test_if_destroy_category_successful()
     {
         $category = factory(Category::class)->create();

@@ -41,9 +41,12 @@ class CategoryUnitTest extends TestCase
     {
         $category = factory(Category::class)->create();
 
-        $category = $this->categoryRepository->findOrFail($category->id);
+        $categoryRepository = $this->categoryRepository->findOrFail($category->id);
 
-        $this->assertInstanceOf(Category::class, $category);
+        $this->assertInstanceOf(Category::class, $categoryRepository);
+        $this->assertEquals($category->name, $categoryRepository->name);
+        $this->assertEquals($category->slug, $categoryRepository->slug);
+        $this->assertEquals($category->active, $categoryRepository->active);
     }
 
     public function test_fail_find_or_fail_category()
@@ -80,6 +83,46 @@ class CategoryUnitTest extends TestCase
 
         $this->assertEquals('error', $request['type']);
         $this->assertEquals('Category error registered.', $request['message']);
+    }
+
+    public function test_can_update_a_category()
+    {
+        $category = factory(Category::class)->create();
+
+        $data = [
+            'name'   => 'Video Game',
+            'slug'   => 'video-game',
+            'active' => 1
+        ];
+
+        $categoryRepository = new CategoryRepository($category);
+        $updated = $categoryRepository->update($data);
+
+        $this->assertTrue(true, $updated);
+    }
+
+    public function test_service_update_categories_successful()
+    {
+        $category = factory(Category::class)->create();
+
+        $data = [
+            'name'   => 'Video Game',
+            'slug'   => 'video-game',
+            'active' => 1
+        ];
+
+        $request = $this->categoryService->update($data, $category->id);
+
+        $this->assertEquals('success', $request['type']);
+        $this->assertEquals('Category successfully updated.', $request['message']);
+    }
+
+    public function test_service_update_categories_error()
+    {
+        $request = $this->categoryService->update([], 999);
+
+        $this->assertEquals('error', $request['type']);
+        $this->assertEquals('Category error updated.', $request['message']);
     }
 
     public function test_can_delete_a_category()

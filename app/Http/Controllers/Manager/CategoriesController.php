@@ -59,6 +59,31 @@ class CategoriesController extends Controller
         return redirect()->route('manager.categories.index');
     }
 
+    public function edit($id)
+    {
+        $currentPage = $this->currentPage;
+        $edit        = true;
+        $category    = $this->categoryRepository->findOrFail($id);
+
+        return view('manager.categories.form')->with(compact(
+            'currentPage',
+            'edit',
+            'category'
+        ));
+    }
+
+    public function update(CategoryRequest $request, $id)
+    {
+        $request = $this->categoryService->update($request->except('_token', '_method'), $id);
+
+        session()->flash('message',[
+            'type' 	  => $request['type'],
+			'message' => $request['message']
+        ]);
+
+        return redirect()->route('manager.categories.index');
+    }
+
     public function destroy($id)
     {
         $request = $this->categoryService->destroy($id);

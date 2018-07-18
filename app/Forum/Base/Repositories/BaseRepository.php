@@ -18,20 +18,25 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $this->model->setAttribute($key, $value);
     }
 
-    public function create(array $attributes)
-    {
-        return $this->model->create($attributes);
-    }
-
     public function all($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc')
     {
         return $this->model->orderBy($orderBy, $sortBy)->get($columns);
     }
 
-    public function findOrfail(int $id)
+    public function findOrFail($id, $columns = ['*'])
     {
-        $this->model = $this->model->findOrFail($id);
+        $this->model = $this->model->findOrFail($id, $columns = ['*']);
         return $this->model;
+    }
+
+    public function create(array $attributes)
+    {
+        return $this->model->create($attributes);
+    }
+
+    public function update(array $values)
+    {
+        return $this->model->update($values);
     }
 
     public function delete()

@@ -31,6 +31,24 @@ class CategoryService
         }
     }
 
+    public function update($data, $id)
+    {
+        try {
+            $this->categoryRepository->findOrFail($id);
+            $this->categoryRepository->update($data);
+
+            return [
+                'type' => 'success',
+                'message' => 'Category successfully updated.'
+            ];
+        } catch (Exception $e) {
+            return [
+                'type' => 'error',
+                'message' => 'Category error updated.'
+            ];
+        }
+    }
+
     public function destroy($id)
     {
         try {
