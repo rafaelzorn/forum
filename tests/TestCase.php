@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Forum\User\Models\User;
+use App\Forum\Category\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -15,6 +16,7 @@ abstract class TestCase extends BaseTestCase
     protected $faker;
     protected $user;
     protected $admin;
+    protected $category;
 
     public function setUp()
     {
@@ -23,6 +25,7 @@ abstract class TestCase extends BaseTestCase
         $this->faker = Faker::create();
         $this->user  = factory(User::class)->create();
         $this->admin = factory(User::class, 'admin')->create();
+        $this->category = factory(Category::class)->create();
     }
 
     public function tearDown()

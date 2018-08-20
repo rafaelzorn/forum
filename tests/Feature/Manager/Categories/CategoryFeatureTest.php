@@ -51,7 +51,7 @@ class CategoryFeatureTest extends TestCase
             ->get(route('manager.categories.create'))
             ->assertStatus(200)
             ->assertSee('Name')
-            ->assertSee('Active')
+            ->assertSee('Select the situation')
             ->assertSee('Save')
             ->assertSee('Return');
     }

@@ -45,7 +45,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="">Topics</a>
+                    <a class="nav-link nav-link-custom" href="{{ route('manager.topics.index') }}">Topics</a>
                 </li>
             @endauth
         </ul>
