@@ -7,6 +7,17 @@ use Tests\TestCase;
 
 class CategoryFeatureTest extends TestCase
 {
+    public function test_user_can_not_access_categories()
+    {
+        $this->actingAs($this->user, 'web')
+            ->get(route('manager.categories.index'))
+            ->assertStatus(302)
+            ->assertSessionHas('message', [
+                'type' => 'warning',
+                'message' => 'You must be an administrator to see this page.'
+            ]);
+    }
+
     public function test_list_all_categories()
     {
         $categories = factory(Category::class, 3)->create();
