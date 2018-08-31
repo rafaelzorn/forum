@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class AuthFeatureTest extends TestCase
 {
-    public function test_show_the_login_form()
+    public function test_show_login_form()
     {
         $this->get(route('login'))
             ->assertStatus(200)
@@ -19,7 +19,7 @@ class AuthFeatureTest extends TestCase
             ->assertSee('Forgot your password?');
     }
 
-    public function test_if_login_successful()
+    public function test_user_redirected_to_dashboard_when_login_successful()
     {
         $data = [
             'email'    => $this->user->email,
@@ -31,7 +31,7 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('manager.dashboard'));
     }
 
-    public function test_redirect_user_authenticated()
+    public function test_user_redirected_to_dashboard_when_logged_in()
     {
         $this->actingAs($this->user, 'web')
             ->get(route('login'))
@@ -39,16 +39,19 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('manager.dashboard'));
     }
 
-    public function test_errors_login_without_email_or_password()
+    public function test_errors_when_user_logs_in_without_email_or_password()
     {
-        $this->post('login', [])
-            ->assertSessionHasErrors([
-                'email'    => 'The email field is required.',
-                'password' => 'The password field is required.'
-            ]);
+        $data = [
+            'email'    => $this->user->email,
+            'password' => 'secret'
+        ];
+
+        $this->post(route('login'), $data)
+            ->assertStatus(302)
+            ->assertRedirect(route('manager.dashboard'));
     }
 
-    public function test_throws_the_event_when_too_many_attempts_login()
+    public function test_event_when_user_makes_many_attempts_to_login()
     {
         $this->expectsEvents(Lockout::class);
 
@@ -72,7 +75,7 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('home'));
     }
 
-    public function test_show_the_register_form()
+    public function test_show_registration_form()
     {
         $this->get(route('register'))
             ->assertStatus(200)
@@ -83,13 +86,15 @@ class AuthFeatureTest extends TestCase
             ->assertSee('Register');
     }
 
-    public function test_if_register_successful()
+    public function test_user_redirected_to_dashboard_when_successful_registration()
     {
+        $password = $this->faker->password;
+
         $data = [
             'name'                   => $this->faker->name,
             'email'                  => $this->faker->email,
-            'password'               => 'secret',
-            'password_confirmation'  => 'secret'
+            'password'               => $password,
+            'password_confirmation'  => $password
         ];
 
         $this->post(route('register'), $data)
@@ -97,7 +102,7 @@ class AuthFeatureTest extends TestCase
             ->assertRedirect(route('manager.dashboard'));
     }
 
-    public function test_errors_register_no_filled_fields()
+    public function test_errors_when_fields_are_not_filled_in_the_register()
     {
         $this->post('register', [])
             ->assertSessionHasErrors([

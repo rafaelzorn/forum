@@ -20,10 +20,10 @@ class CategoryUnitTest extends TestCase
         $this->categoryService = new CategoryService($this->categoryRepository);
     }
 
-    public function test_service_store_categories_successful()
+    public function test_service_store_successful()
     {
         $data = [
-            'name'   => 'Video Game',
+            'name'   => $this->faker->name,
             'active' => 1
         ];
 
@@ -33,7 +33,7 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals('Category successfully registered.', $request['message']);
     }
 
-    public function test_service_store_categories_error()
+    public function test_service_store_error()
     {
         $request = $this->categoryService->store([]);
 
@@ -41,12 +41,12 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals('Category error registered.', $request['message']);
     }
 
-    public function test_service_update_categories_successful()
+    public function test_service_update_successful()
     {
         $category = factory(Category::class)->create();
 
         $data = [
-            'name'   => 'Video Game',
+            'name'   => $this->faker->name,
             'active' => 1
         ];
 
@@ -56,7 +56,7 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals('Category successfully updated.', $request['message']);
     }
 
-    public function test_service_update_categories_error()
+    public function test_service_update_error()
     {
         $request = $this->categoryService->update([], 999);
 
@@ -64,7 +64,7 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals('Category error updated.', $request['message']);
     }
 
-    public function test_service_destroy_categories_successful()
+    public function test_service_destroy_successful()
     {
         $category = factory(Category::class)->create();
 
@@ -74,7 +74,7 @@ class CategoryUnitTest extends TestCase
         $this->assertEquals('Category deleted successfully.', $request['message']);
     }
 
-    public function test_service_destroy_categories_error()
+    public function test_service_destroy_error()
     {
         $request = $this->categoryService->destroy(999);
 

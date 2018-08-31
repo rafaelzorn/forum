@@ -15,6 +15,7 @@ class CreateTopicsTable extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
             $table->string('title');
             $table->string('slug')->unique();
@@ -24,6 +25,7 @@ class CreateTopicsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }

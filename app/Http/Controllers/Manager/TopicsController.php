@@ -30,7 +30,7 @@ class TopicsController extends Controller
     public function index()
     {
         $currentPage = $this->currentPage;
-        $topics  = $this->topicRepository->all();
+        $topics = $this->topicRepository->filter();
 
         return view('manager.topics.index')->with(compact(
             'currentPage',
@@ -67,9 +67,12 @@ class TopicsController extends Controller
 
     public function edit($id)
     {
+        $topic = $this->topicRepository->findOrFail($id);
+
+        $this->authorize('edit', $topic);
+
         $currentPage = $this->currentPage;
         $edit        = true;
-        $topic       = $this->topicRepository->findOrFail($id);
         $categories  = $this->categoryRepository->all();
 
         return view('manager.topics.form')->with(compact(

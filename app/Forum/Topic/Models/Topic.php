@@ -25,6 +25,7 @@ class Topic extends Base
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'category_id',
         'title',
         'content',

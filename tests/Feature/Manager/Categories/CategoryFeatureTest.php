@@ -7,59 +7,36 @@ use Tests\TestCase;
 
 class CategoryFeatureTest extends TestCase
 {
-    public function test_should_not_show_categories_to_user()
+    public function test_list_all_categories()
     {
-        $this->actingAs($this->user, 'web')
+        $categories = factory(Category::class, 3)->create();
+
+        $response = $this->actingAs($this->admin, 'web')
             ->get(route('manager.categories.index'))
-            ->assertStatus(302)
-            ->assertSessionHas('message', [
-                'type' => 'warning',
-                'message' => 'You must be an administrator to see this page.'
-            ]);
+            ->assertStatus(200);
+
+        $categories->each(function($category) use ($response) {
+            $response->assertSee($category->title);
+            $response->assertSee($category->active);
+        });
     }
 
-    public function test_show_the_index_category_page()
-    {
-        $this->actingAs($this->admin, 'web')
-            ->get(route('manager.categories.index'))
-            ->assertStatus(200)
-            ->assertViewHas(['currentPage', 'categories']);
-    }
-
-    public function test_list_all_the_categories()
-    {
-        $category = factory(Category::class)->create();
-
-        $this->actingAs($this->admin, 'web')
-            ->get(route('manager.categories.index'))
-            ->assertStatus(200)
-            ->assertSee($category->name)
-            ->assertSee($category->active);
-    }
-
-    public function test_show_the_create_category_page()
+    public function test_show_create_category_page()
     {
         $this->actingAs($this->admin, 'web')
             ->get(route('manager.categories.create'))
             ->assertStatus(200)
-            ->assertViewHas(['currentPage', 'edit', 'category']);
-    }
-
-    public function test_show_the_categories_form()
-    {
-        $this->actingAs($this->admin, 'web')
-            ->get(route('manager.categories.create'))
-            ->assertStatus(200)
+            ->assertViewHas(['currentPage', 'edit', 'category'])
             ->assertSee('Name')
             ->assertSee('Select the situation')
             ->assertSee('Save')
             ->assertSee('Return');
     }
 
-    public function test_if_store_category_successful()
+    public function test_store_category_successful()
     {
         $data = [
-            'name'   => 'Video Game',
+            'name'   => $this->faker->name,
             'active' => 1
         ];
 
@@ -83,7 +60,7 @@ class CategoryFeatureTest extends TestCase
             ]);
     }
 
-    public function test_show_the_edit_category_page()
+    public function test_show_edit_page_category()
     {
         $category = factory(Category::class)->create();
 
@@ -94,12 +71,12 @@ class CategoryFeatureTest extends TestCase
             ->assertSee($category->name);
     }
 
-    public function test_if_update_category_successful()
+    public function test_update_category_successful()
     {
         $category = factory(Category::class)->create();
 
         $data = [
-            'name'   => 'Video Game',
+            'name'   => $this->faker->name,
             'active' => 1
         ];
 
@@ -113,7 +90,7 @@ class CategoryFeatureTest extends TestCase
             ]);
     }
 
-    public function test_if_destroy_category_successful()
+    public function test_destroy_category_successful()
     {
         $category = factory(Category::class)->create();
 

@@ -4,6 +4,7 @@ namespace App\Forum\Topic\Services;
 
 use App\Forum\Topic\Repositories\TopicRepository;
 use Exception;
+use Auth;
 
 class TopicService
 {
@@ -17,6 +18,8 @@ class TopicService
     public function store($data)
     {
         try {
+            $data = array_add($data, 'user_id', Auth::user()->id);
+
             $this->topicRepository->create($data);
 
             return [

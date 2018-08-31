@@ -20,12 +20,37 @@ class TopicUnitTest extends TestCase
         $this->topicService = new TopicService($this->topicRepository);
     }
 
-    public function test_service_store_topics_successful()
+    public function test_filter()
     {
+        factory(Topic::class, 2)->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        factory(Topic::class, 3)->create([
+            'user_id' => 4,
+        ]);
+
+        $this->be($this->user);
+
+        $topics = $this->topicRepository->filter();
+
+        $this->assertCount(2, $topics);
+
+        $this->be($this->admin);
+
+        $topics = $this->topicRepository->filter();
+
+        $this->assertCount(5, $topics);
+    }
+
+    public function test_service_store_successful()
+    {
+        $this->be($this->user);
+
         $data = [
             'category_id' => $this->category->id,
-            'title' => 'Título de teste',
-            'content' => 'Conteúdo de teste.',
+            'title' => $this->faker->name,
+            'content' => $this->faker->text,
             'active' => 1
         ];
 
@@ -35,7 +60,7 @@ class TopicUnitTest extends TestCase
         $this->assertEquals('Topic successfully registered.', $request['message']);
     }
 
-    public function test_service_store_topics_error()
+    public function test_service_store_error()
     {
         $request = $this->topicService->store([]);
 
@@ -43,14 +68,14 @@ class TopicUnitTest extends TestCase
         $this->assertEquals('Topic error registered.', $request['message']);
     }
 
-    public function test_service_update_topics_successful()
+    public function test_service_update_successful()
     {
         $topic = factory(Topic::class)->create();
 
         $data = [
             'category_id' => $this->category->id,
-            'title' => 'Título de teste',
-            'content' => 'Conteúdo de teste.',
+            'title' => $this->faker->name,
+            'content' => $this->faker->text,
             'active' => 1
         ];
 
@@ -60,7 +85,7 @@ class TopicUnitTest extends TestCase
         $this->assertEquals('Topic successfully updated.', $request['message']);
     }
 
-    public function test_service_update_topics_error()
+    public function test_service_update_error()
     {
         $request = $this->topicService->update([], 999);
 
@@ -68,7 +93,7 @@ class TopicUnitTest extends TestCase
         $this->assertEquals('Topic error updated.', $request['message']);
     }
 
-    public function test_service_destroy_topics_successful()
+    public function test_service_destroy_successful()
     {
         $topic = factory(Topic::class)->create();
 
@@ -78,7 +103,7 @@ class TopicUnitTest extends TestCase
         $this->assertEquals('Topic deleted successfully.', $request['message']);
     }
 
-    public function test_service_destroy_topics_error()
+    public function test_service_destroy_error()
     {
         $request = $this->topicService->destroy(999);
 

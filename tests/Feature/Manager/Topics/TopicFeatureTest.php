@@ -7,39 +7,28 @@ use Tests\TestCase;
 
 class TopicFeatureTest extends TestCase
 {
-    public function test_show_the_index_topic_page()
+    public function test_list_all_topics()
     {
-        $this->actingAs($this->user, 'web')
+        $topics = factory(Topic::class, 3)->create();
+
+        $response = $this->actingAs($this->admin, 'web')
             ->get(route('manager.topics.index'))
             ->assertStatus(200)
             ->assertViewHas(['currentPage', 'topics']);
+
+        $topics->each(function($topic) use ($response) {
+            $response->assertSee($topic->category->name);
+            $response->assertSee($topic->title);
+            $response->assertSee($topic->active);
+        });
     }
 
-    public function test_list_all_the_topics()
-    {
-        $topic = factory(Topic::class)->create();
-
-        $this->actingAs($this->user, 'web')
-            ->get(route('manager.topics.index'))
-            ->assertStatus(200)
-            ->assertSee($topic->category->name)
-            ->assertSee($topic->title)
-            ->assertSee($topic->active);
-    }
-
-    public function test_show_the_create_topic_page()
+    public function test_show_create_topic_page()
     {
         $this->actingAs($this->user, 'web')
             ->get(route('manager.topics.create'))
             ->assertStatus(200)
-            ->assertViewHas(['currentPage', 'edit', 'topic', 'categories']);
-    }
-
-    public function test_show_the_topics_form()
-    {
-        $this->actingAs($this->user, 'web')
-            ->get(route('manager.topics.create'))
-            ->assertStatus(200)
+            ->assertViewHas(['currentPage', 'edit', 'topic', 'categories'])
             ->assertSee('Select the category')
             ->assertSee('Title')
             ->assertSee('Content')
@@ -48,12 +37,12 @@ class TopicFeatureTest extends TestCase
             ->assertSee('Return');
     }
 
-    public function test_if_store_topic_successful()
+    public function test_store_topic_successful()
     {
         $data = [
             'category_id' => $this->category->id,
-            'title' => 'Título de teste',
-            'content' => 'Conteúdo de teste.',
+            'title' => $this->faker->name,
+            'content' => $this->faker->text,
             'active' => 1
         ];
 
@@ -79,9 +68,11 @@ class TopicFeatureTest extends TestCase
             ]);
     }
 
-    public function test_show_the_edit_topic_page()
+    public function test_show_edit_page_topic()
     {
-        $topic = factory(Topic::class)->create();
+        $topic = factory(Topic::class)->create([
+            'user_id' => $this->user
+        ]);
 
         $this->actingAs($this->user, 'web')
             ->get(route('manager.topics.edit', $topic->id))
@@ -90,14 +81,14 @@ class TopicFeatureTest extends TestCase
             ->assertSee($topic->title);
     }
 
-    public function test_if_update_topic_successful()
+    public function test_update_topic_successful()
     {
         $topic = factory(Topic::class)->create();
 
         $data = [
             'category_id' => $this->category->id,
-            'title' => 'Título de teste',
-            'content' => 'Conteúdo de teste.',
+            'title' => $this->faker->name,
+            'content' => $this->faker->text,
             'active' => 1
         ];
 
@@ -111,7 +102,7 @@ class TopicFeatureTest extends TestCase
             ]);
     }
 
-    public function test_if_destroy_topic_successful()
+    public function test_destroy_topic_successful()
     {
         $topic = factory(Topic::class)->create();
 

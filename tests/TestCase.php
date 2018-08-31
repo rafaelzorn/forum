@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->faker = Faker::create();
-        $this->user  = factory(User::class)->create();
+        $this->user = factory(User::class)->create();
         $this->admin = factory(User::class, 'admin')->create();
         $this->category = factory(Category::class)->create();
     }
