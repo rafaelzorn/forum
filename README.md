@@ -3,7 +3,7 @@
 
 # FORUM
 
-Projeto para estudo de TDD (Test Driven Development).
+Projeto para estudo de TDD (Test Driven Development) utilizando framework Laravel ❤.
 
 Primeiro você tem que usar o seu Terminal para chegar ao diretório que você deseja armazenar o projeto. Então você executa:
 
