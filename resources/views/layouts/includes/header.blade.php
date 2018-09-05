@@ -13,12 +13,14 @@
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="#" class="dropdown-item">
+                            <i class="fa fa-cog"></i>
                             Settings
                         </a>
 
                         <div class="dropdown-divider"></div>
 
                         <a href="{{ route('logout') }}" class="dropdown-item">
+                            <i class="fa fa-sign-out"></i>
                             Logout
                         </a>
                     </div>

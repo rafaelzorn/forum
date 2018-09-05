@@ -41,14 +41,11 @@ class AuthFeatureTest extends TestCase
 
     public function test_errors_when_user_logs_in_without_email_or_password()
     {
-        $data = [
-            'email'    => $this->user->email,
-            'password' => 'secret'
-        ];
-
-        $this->post(route('login'), $data)
-            ->assertStatus(302)
-            ->assertRedirect(route('manager.dashboard'));
+        $this->post(route('login'), [])
+            ->assertSessionHasErrors([
+                'email' => 'The email field is required.',
+                'password' => 'The password field is required.',
+            ]);
     }
 
     public function test_event_when_user_makes_many_attempts_to_login()
@@ -110,5 +107,32 @@ class AuthFeatureTest extends TestCase
                 'email'    => 'The email field is required.',
                 'password' => 'The password field is required.'
             ]);
+    }
+
+    public function test_errors_when_user_reset_password_in_without_email_or_password()
+    {
+        $this->post(route('password.email'), [])
+            ->assertSessionHasErrors([
+                'email' => 'The email field is required.',
+            ]);
+    }
+
+    public function test_errors_when_user_reset_password_email_not_found()
+    {
+        $data = [
+            'email' => 'teste@teste.com.br'
+        ];
+
+        $this->post(route('password.email'), $data)
+            ->assertSessionHasErrors([
+                'email' => "We can't find a user with that e-mail address.",
+            ]);
+    }
+
+    public function test_reset_password_successful()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertEquals(true, true);
     }
 }

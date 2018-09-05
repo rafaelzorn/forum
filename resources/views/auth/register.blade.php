@@ -55,6 +55,8 @@
                 <div class="col-xs-12">
                     <button type="submit" class="btn btn-lg btn-info btn-block btn-log-in m-b-30">Register</button>
                 </div>
+
+                <p>Already registered? <a href="{{ route('login') }}">Login</a></p>
             </div>
         </form>
     </section>

@@ -8,7 +8,10 @@
             @include('layouts.includes.messages.success')
 
             <h4 class="page-title">Categories</h4>
-            <a href="{{ route('manager.categories.create') }}" class="btn btn-success btn-sm min-w-110">New</a>
+            <a href="{{ route('manager.categories.create') }}" class="btn btn-success btn-sm min-w-110">
+                <i class="fa fa-plus"></i>
+                New
+            </a>
         </div>
     </div>
 
@@ -20,7 +23,7 @@
                         <tr>
                             <th scope="col">Title</th>
                             <th scope="col">Active</th>
-                            <th scope="col" style="width: 10%;"></th>
+                            <th scope="col" style="width: 15%;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,11 +35,17 @@
                                     <td>
                                         <form method="POST" action="{{ route('manager.categories.destroy', $category->id) }}" class="form-horizontal">
 
-                                        <a href="{{ route('manager.categories.edit', $category->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                        <a href="{{ route('manager.categories.edit', $category->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                            Edit
+                                        </a>
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                                Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

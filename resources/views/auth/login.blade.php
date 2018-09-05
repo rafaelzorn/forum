@@ -45,9 +45,11 @@
                 <div class="col-xs-12">
                     <button type="submit" class="btn btn-lg btn-info btn-block btn-log-in m-b-30">Log In</button>
 
-                    <a href="#">
+                    <a href="{{ route('password.request') }}">
                         Forgot your password?
                     </a>
+
+                    <p>Not registered? <a href="{{ route('register') }}">Register</a></p>
                 </div>
             </div>
         </form>
