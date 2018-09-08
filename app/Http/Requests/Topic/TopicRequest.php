@@ -37,7 +37,7 @@ class TopicRequest extends FormRequest
             'category_id.required' => 'The category field is required.',
             'title.required'       => 'The title field is required.',
             'content.required'     => 'The content field is required.',
-            'active.required'      => 'The active field is required.'
+            'active.required'      => 'The situation field is required.'
         ];
     }
 }

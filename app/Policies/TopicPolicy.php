@@ -22,6 +22,6 @@ class TopicPolicy
 
     public function edit(User $user, Topic $topic)
     {
-        return $user->id == $topic->user_id;
+        return $user->isAdmin() || $user->id == $topic->user_id;
     }
 }
