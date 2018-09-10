@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Topic;
 
-use App\Forum\User\Models\User;
 use App\Forum\Topic\Models\Topic;
 use App\Forum\Topic\Repositories\TopicRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -23,17 +22,15 @@ class TopicRepositoryTest extends TestCase
 
     public function test_admin_can_view_all_topics()
     {
-        $user = factory(User::class, 'admin')->create();
-
         factory(Topic::class, 2)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->admin->id,
         ]);
 
         factory(Topic::class, 3)->create([
             'user_id' => 4,
         ]);
 
-        $this->be($user);
+        $this->be($this->admin);
 
         $topics = $this->topicRepository->filter();
 
@@ -42,17 +39,15 @@ class TopicRepositoryTest extends TestCase
 
     public function test_user_can_view_your_topics()
     {
-        $user = factory(User::class)->create();
-
         factory(Topic::class, 2)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
         ]);
 
         factory(Topic::class, 3)->create([
             'user_id' => 4,
         ]);
 
-        $this->be($user);
+        $this->be($this->user);
 
         $topics = $this->topicRepository->filter();
 

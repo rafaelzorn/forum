@@ -6,7 +6,6 @@ use App\Forum\User\Models\User;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,9 +44,7 @@ class ForgotPasswordTest extends TestCase
 
     public function test_user_cannot_view_an_email_password_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
-
-        $response = $this->actingAs($user)->get($this->passwordRequestRoute());
+        $response = $this->actingAs($this->user)->get($this->passwordRequestRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
@@ -60,7 +57,7 @@ class ForgotPasswordTest extends TestCase
         ]);
 
         $this->post($this->passwordEmailPostRoute(), [
-            'email' => 'rafaelzorn@example.com',
+            'email' => $user->email,
         ]);
 
         $this->assertNotNull($token = DB::table('password_resets')->first());
@@ -83,7 +80,7 @@ class ForgotPasswordTest extends TestCase
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
             'email' => 'invalid-email',
         ]);
-        
+
         $response->assertRedirect($this->passwordEmailGetRoute());
         $response->assertSessionHasErrors('email');
     }

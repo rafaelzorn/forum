@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\Manager\Categories;
 
-use App\Forum\User\Models\User;
 use App\Forum\Category\Models\Category;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryTest extends TestCase
@@ -44,7 +42,6 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_view_category_pages()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create();
 
         $pages = [
@@ -54,7 +51,7 @@ class CategoryTest extends TestCase
         ];
 
         foreach ($pages as $page) {
-            $response = $this->actingAs($user)->get($page['route']);
+            $response = $this->actingAs($this->admin)->get($page['route']);
             $response->assertSuccessful();
             $response->assertViewIs($page['view']);
         }
@@ -62,7 +59,6 @@ class CategoryTest extends TestCase
 
     public function test_user_cannot_view_category_pages()
     {
-        $user = factory(User::class)->make();
         $category = factory(Category::class)->create();
 
         $routes = [
@@ -72,7 +68,7 @@ class CategoryTest extends TestCase
         ];
 
         foreach ($routes as $route) {
-            $response = $this->actingAs($user)->get($route);
+            $response = $this->actingAs($this->user)->get($route);
             $response->assertStatus(302);
             $response->assertSessionHas('message', [
                 'type' => 'warning',
@@ -84,10 +80,9 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_view_categories_list()
     {
-        $user = factory(User::class, 'admin')->make();
         $categories = factory(Category::class, 3)->make();
 
-        $response = $this->actingAs($user)->get($this->categoryIndexGetRoute());
+        $response = $this->actingAs($this->admin)->get($this->categoryIndexGetRoute());
         $response->assertSuccessful();
         $response->assertViewHas(['currentPage', 'categories']);
 
@@ -99,9 +94,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_view_a_create_form()
     {
-        $user = factory(User::class, 'admin')->make();
-
-        $response = $this->actingAs($user)->get($this->categoryCreateGetRoute());
+        $response = $this->actingAs($this->admin)->get($this->categoryCreateGetRoute());
         $response->assertSuccessful();
         $response->assertViewHas(['currentPage', 'edit', 'category']);
         $response->assertViewIs('manager.categories.form');
@@ -109,9 +102,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_create_a_category()
     {
-        $user = factory(User::class, 'admin')->make();
-
-        $response = $this->actingAs($user)->post($this->categoryStoreRoute(), [
+        $response = $this->actingAs($this->admin)->post($this->categoryStoreRoute(), [
             'name' => 'Category One',
             'active' => 1,
         ]);
@@ -132,9 +123,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_cannot_create_category_without_name()
     {
-        $user = factory(User::class, 'admin')->make();
-
-        $response = $this->actingAs($user)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
+        $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => '',
             'active' => 1,
         ]);
@@ -147,9 +136,7 @@ class CategoryTest extends TestCase
 
     public function test_admin_cannot_create_category_without_situation()
     {
-        $user = factory(User::class, 'admin')->make();
-
-        $response = $this->actingAs($user)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
+        $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => 'Category One',
             'active' => '',
         ]);
@@ -162,10 +149,9 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_view_a_edit_form()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->get($this->categoryEditGetRoute($category->id));
+        $response = $this->actingAs($this->admin)->get($this->categoryEditGetRoute($category->id));
         $response->assertSuccessful();
         $response->assertViewHas(['currentPage', 'edit', 'category']);
         $response->assertViewIs('manager.categories.form');
@@ -173,13 +159,12 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_edit_a_category()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create([
             'name' => 'Category One',
             'active' => 1,
         ]);
 
-        $response = $this->actingAs($user)->put($this->categoryUpdateRoute($category->id), [
+        $response = $this->actingAs($this->admin)->put($this->categoryUpdateRoute($category->id), [
             'name' => 'Category Two',
             'active' => 1,
         ]);
@@ -200,13 +185,12 @@ class CategoryTest extends TestCase
 
     public function test_admin_cannot_update_category_without_name()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create([
             'name' => 'Category One',
             'active' => 1,
         ]);
 
-        $response = $this->actingAs($user)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
+        $response = $this->actingAs($this->admin)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
             'name' => '',
             'active' => 1,
         ]);
@@ -225,13 +209,12 @@ class CategoryTest extends TestCase
 
     public function test_admin_cannot_update_category_without_situation()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create([
             'name' => 'Category One',
             'active' => 1,
         ]);
 
-        $response = $this->actingAs($user)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
+        $response = $this->actingAs($this->admin)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
             'name' => 'Category One',
             'active' => '',
         ]);
@@ -250,10 +233,9 @@ class CategoryTest extends TestCase
 
     public function test_admin_can_delete_a_category()
     {
-        $user = factory(User::class, 'admin')->make();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->categoryIndexGetRoute())->delete($this->categoryDeleteRoute($category->id));
+        $response = $this->actingAs($this->admin)->from($this->categoryIndexGetRoute())->delete($this->categoryDeleteRoute($category->id));
 
         $this->assertCount(0, Category::all());
         $response->assertRedirect($this->categoryIndexGetRoute());

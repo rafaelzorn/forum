@@ -25,12 +25,10 @@ class CategoryServiceTest extends TestCase
 
     public function test_can_store()
     {
-        $data = [
+        $request = $this->categoryService->store([
             'name'   => 'Category One',
             'active' => 1
-        ];
-
-        $request = $this->categoryService->store($data);
+        ]);
 
         $this->assertCount(1, $categories = Category::all());
 
@@ -60,12 +58,13 @@ class CategoryServiceTest extends TestCase
             'active' => 1
         ]);
 
-        $data = [
+        $request = $this->categoryService->update(
+            [
             'name'   => 'Category Two',
             'active' => 1
-        ];
-
-        $request = $this->categoryService->update($data, $category->id);
+            ],
+            $category->id
+        );
 
         $this->assertCount(1, $categories = Category::all());
 
@@ -85,12 +84,13 @@ class CategoryServiceTest extends TestCase
             'active' => 1
         ]);
 
-        $data = [
-            'name'   => 'Category Two',
-            'active' => 1
-        ];
-
-        $request = $this->categoryService->update($data, 999);
+        $request = $this->categoryService->update(
+            [
+                'name'   => 'Category Two',
+                'active' => 1
+            ],
+            999
+        );
 
         $this->assertCount(1, $categories = Category::all());
 

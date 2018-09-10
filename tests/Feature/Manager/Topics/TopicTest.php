@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Manager\Topic;
 
-use App\Forum\User\Models\User;
 use App\Forum\Topic\Models\Topic;
 use App\Forum\Category\Models\Category;
 use Tests\TestCase;
@@ -45,7 +44,6 @@ class TopicTest extends TestCase
 
     public function test_admin_can_view_topic_pages()
     {
-        $user = factory(User::class, 'admin')->make();
         $topic = factory(Topic::class)->create();
 
         $pages = [
@@ -55,7 +53,7 @@ class TopicTest extends TestCase
         ];
 
         foreach ($pages as $page) {
-            $response = $this->actingAs($user)->get($page['route']);
+            $response = $this->actingAs($this->user)->get($page['route']);
             $response->assertSuccessful();
             $response->assertViewIs($page['view']);
         }
@@ -63,12 +61,8 @@ class TopicTest extends TestCase
 
     public function test_user_can_view_topic_pages()
     {
-        $user = factory(User::class)->make([
-            'id' => 1,
-        ]);
-
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id
+            'user_id' => $this->user->id
         ]);
 
         $pages = [
@@ -78,7 +72,7 @@ class TopicTest extends TestCase
         ];
 
         foreach ($pages as $page) {
-            $response = $this->actingAs($user)->get($page['route']);
+            $response = $this->actingAs($this->user)->get($page['route']);
             $response->assertSuccessful();
             $response->assertViewIs($page['view']);
         }
@@ -86,9 +80,7 @@ class TopicTest extends TestCase
 
     public function test_user_can_view_a_create_form()
     {
-        $user = factory(User::class)->make();
-
-        $response = $this->actingAs($user)->get($this->topicCreateGetRoute());
+        $response = $this->actingAs($this->user)->get($this->topicCreateGetRoute());
 
         $response->assertSuccessful();
         $response->assertViewHas(['currentPage', 'edit', 'topic', 'categories']);
@@ -97,10 +89,9 @@ class TopicTest extends TestCase
 
     public function test_user_can_create_a_topic()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->post($this->topicStoreRoute(), [
+        $response = $this->actingAs($this->user)->post($this->topicStoreRoute(), [
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
@@ -111,7 +102,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text', $topic->content);
@@ -126,9 +117,7 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_create_topic_without_category()
     {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
+        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
             'category_id' => '',
             'title' => 'Topic One',
             'content' => 'This is a test text',
@@ -145,10 +134,9 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_create_topic_without_title()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
+        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
             'category_id' => $category->id,
             'title' => '',
             'content' => 'This is a test text',
@@ -165,10 +153,9 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_create_topic_without_content()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
+        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => '',
@@ -185,10 +172,9 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_create_topic_without_situation()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
+        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
@@ -205,10 +191,9 @@ class TopicTest extends TestCase
 
     public function test_user_can_view_a_edit_form()
     {
-        $user = factory(User::class, 'admin')->make();
         $topic = factory(Topic::class)->create();
 
-        $response = $this->actingAs($user)->get($this->topicEditGetRoute($topic->id));
+        $response = $this->actingAs($this->user)->get($this->topicEditGetRoute($topic->id));
         $response->assertSuccessful();
 
         $response->assertViewHas(['currentPage', 'edit', 'topic', 'categories']);
@@ -217,21 +202,19 @@ class TopicTest extends TestCase
 
     public function test_user_can_edit_a_topic()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
+
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
             'active' => 1,
         ]);
 
-        $otherCategory = factory(Category::class)->create([
-            'id' => 2
-        ]);
+        $otherCategory = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->put($this->topicUpdateRoute($topic->id), [
+        $response = $this->actingAs($this->user)->put($this->topicUpdateRoute($topic->id), [
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
@@ -242,7 +225,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($otherCategory->id, $topic->category_id);
         $this->assertEquals('Topic Two', $topic->title);
         $this->assertEquals('This is a test text two', $topic->content);
@@ -257,17 +240,17 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_update_topic_without_category()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
+
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
             'active' => 1,
         ]);
 
-        $response = $this->actingAs($user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
+        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
             'category_id' => '',
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
@@ -278,7 +261,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
@@ -293,10 +276,10 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_update_topic_without_title()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
+
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
@@ -305,7 +288,7 @@ class TopicTest extends TestCase
 
         $otherCategory = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
+        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
             'category_id' => $otherCategory->id,
             'title' => '',
             'content' => 'This is a test text two',
@@ -316,7 +299,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
@@ -331,21 +314,19 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_update_topic_without_content()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
+
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
             'active' => 1,
         ]);
 
-        $otherCategory = factory(Category::class)->create([
-            'id' => 2
-        ]);
+        $otherCategory = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
+        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => '',
@@ -356,7 +337,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
@@ -371,21 +352,19 @@ class TopicTest extends TestCase
 
     public function test_user_cannot_update_topic_without_situation()
     {
-        $user = factory(User::class)->create();
         $category = factory(Category::class)->create();
+
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
             'active' => 1,
         ]);
 
-        $otherCategory = factory(Category::class)->create([
-            'id' => 2
-        ]);
+        $otherCategory = factory(Category::class)->create();
 
-        $response = $this->actingAs($user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
+        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
@@ -396,7 +375,7 @@ class TopicTest extends TestCase
 
         $topic = $topics->first();
 
-        $this->assertEquals($user->id, $topic->user_id);
+        $this->assertEquals($this->user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
@@ -411,12 +390,11 @@ class TopicTest extends TestCase
 
     public function test_user_can_delete_a_category()
     {
-        $user = factory(User::class, 'admin')->create();
         $topic = factory(Topic::class)->create([
-            'user_id' => $user->id
+            'user_id' => $this->user->id
         ]);
 
-        $response = $this->actingAs($user)->from($this->topicIndexGetRoute())->delete($this->topicDeleteRoute($topic->id));
+        $response = $this->actingAs($this->user)->from($this->topicIndexGetRoute())->delete($this->topicDeleteRoute($topic->id));
 
         $this->assertCount(0, Topic::all());
         $response->assertRedirect($this->topicIndexGetRoute());

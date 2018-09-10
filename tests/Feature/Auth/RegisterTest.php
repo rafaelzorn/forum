@@ -6,13 +6,17 @@ use App\Forum\User\Models\User;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp()
+    {
+        parent::setUp();
+    }
 
     protected function successfulRegistrationRoute()
     {
@@ -44,9 +48,7 @@ class RegisterTest extends TestCase
 
     public function test_user_cannot_view_a_registration_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
-
-        $response = $this->actingAs($user)->get($this->registerGetRoute());
+        $response = $this->actingAs($this->user)->get($this->registerGetRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
@@ -68,7 +70,7 @@ class RegisterTest extends TestCase
         $this->assertEquals('Rafael Zorn', $user->name);
         $this->assertEquals('rafael.zorn@example.com', $user->email);
         $this->assertTrue(Hash::check('laravel-forever', $user->password));
-        
+
         Event::assertDispatched(Registered::class, function ($e) use ($user) {
             return $e->user->id === $user->id;
         });

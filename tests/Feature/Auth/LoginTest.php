@@ -4,7 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\Forum\User\Models\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
@@ -51,9 +50,7 @@ class LoginTest extends TestCase
 
     public function test_user_cannot_view_a_login_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
-
-        $response = $this->actingAs($user)->get($this->loginGetRoute());
+        $response = $this->actingAs($this->user)->get($this->loginGetRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
@@ -102,7 +99,7 @@ class LoginTest extends TestCase
 
     public function test_user_can_logout()
     {
-        $this->be(factory(User::class)->create());
+        $this->be($this->user);
 
         $response = $this->post($this->logoutRoute());
 
@@ -120,20 +117,16 @@ class LoginTest extends TestCase
 
     public function test_user_cannot_make_more_than_five_attempts_in_one_minute()
     {
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = 'laravel-forever'),
-        ]);
-
         for ($i=0; $i <= 5; $i++) {
             $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
-                'email' => $user->email,
+                'email' => $this->user->email,
                 'password' => 'invalid-password',
             ]);
         }
 
         $response->assertRedirect($this->loginGetRoute());
         $response->assertSessionHasErrors('email');
-        
+
         $this->assertContains(
             'Too many login attempts.',
             collect(
