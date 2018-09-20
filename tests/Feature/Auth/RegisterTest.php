@@ -38,7 +38,8 @@ class RegisterTest extends TestCase
         return route('manager.dashboard');
     }
 
-    public function test_user_can_view_a_registration_form()
+    /** @test */
+    public function it_user_can_view_a_registration_form()
     {
         $response = $this->get($this->registerGetRoute());
 
@@ -46,13 +47,15 @@ class RegisterTest extends TestCase
         $response->assertViewIs('auth.register');
     }
 
-    public function test_user_cannot_view_a_registration_form_when_authenticated()
+    /** @test */
+    public function it_user_cannot_view_a_registration_form_when_authenticated()
     {
         $response = $this->actingAs($this->user)->get($this->registerGetRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
-    public function test_user_can_register()
+    /** @test */
+    public function it_user_can_register()
     {
         Event::fake();
 
@@ -76,7 +79,8 @@ class RegisterTest extends TestCase
         });
     }
 
-    public function test_user_cannot_register_without_name()
+    /** @test */
+    public function it_user_cannot_register_without_name()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => '',
@@ -93,7 +97,8 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_user_cannot_register_without_email()
+    /** @test */
+    public function it_user_cannot_register_without_email()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => 'Rafael Zorn',
@@ -110,7 +115,8 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_user_cannot_register_with_invalid_email()
+    /** @test */
+    public function it_user_cannot_register_with_invalid_email()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => 'Rafael Zorn',
@@ -128,7 +134,8 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_user_cannot_register_without_password()
+    /** @test */
+    public function it_user_cannot_register_without_password()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => 'Rafael Zorn',
@@ -146,7 +153,8 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_user_cannot_register_without_password_confirmation()
+    /** @test */
+    public function it_user_cannot_register_without_password_confirmation()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => 'Rafael Zorn',
@@ -164,7 +172,8 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 
-    public function testUserCannotRegisterWithPasswordsNotMatching()
+    /** @test */
+    public function it_user_cannot_register_with_passwords_not_matching()
     {
         $response = $this->from($this->registerGetRoute())->post($this->registerPostRoute(), [
             'name' => 'Rafael Zorn',

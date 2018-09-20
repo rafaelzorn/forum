@@ -11,7 +11,8 @@ class DashboardTest extends TestCase
         return route('manager.dashboard');
     }
 
-    public function test_user_can_view_dashboard()
+    /** @test */
+    public function it_user_can_view_dashboard()
     {
         $response = $this->actingAs($this->user)->get($this->dashboardGetRoute());
 

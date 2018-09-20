@@ -20,7 +20,8 @@ class TopicRepositoryTest extends TestCase
         $this->topicRepository = new TopicRepository(new Topic);
     }
 
-    public function test_admin_can_view_all_topics()
+    /** @test */
+    public function it_admin_can_view_all_topics()
     {
         factory(Topic::class, 2)->create([
             'user_id' => $this->admin->id,
@@ -37,7 +38,8 @@ class TopicRepositoryTest extends TestCase
         $this->assertCount(5, $topics);
     }
 
-    public function test_user_can_view_your_topics()
+    /** @test */
+    public function it_user_can_view_only_your_topics()
     {
         factory(Topic::class, 2)->create([
             'user_id' => $this->user->id,

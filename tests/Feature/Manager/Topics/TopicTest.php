@@ -42,7 +42,8 @@ class TopicTest extends TestCase
         return route('manager.topics.destroy', $id);
     }
 
-    public function test_admin_can_view_topic_pages()
+    /** @test */
+    public function it_admin_can_view_topic_pages()
     {
         $topic = factory(Topic::class)->create();
 
@@ -59,7 +60,8 @@ class TopicTest extends TestCase
         }
     }
 
-    public function test_user_can_view_topic_pages()
+    /** @test */
+    public function it_user_can_view_topic_pages()
     {
         $topic = factory(Topic::class)->create([
             'user_id' => $this->user->id
@@ -78,7 +80,8 @@ class TopicTest extends TestCase
         }
     }
 
-    public function test_user_can_view_a_create_form()
+    /** @test */
+    public function it_user_can_view_a_create_form()
     {
         $response = $this->actingAs($this->user)->get($this->topicCreateGetRoute());
 
@@ -87,7 +90,8 @@ class TopicTest extends TestCase
         $response->assertViewIs('manager.topics.form');
     }
 
-    public function test_user_can_create_a_topic()
+    /** @test */
+    public function it_user_can_create_a_topic()
     {
         $category = factory(Category::class)->create();
 
@@ -115,7 +119,8 @@ class TopicTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_create_topic_without_category()
+    /** @test */
+    public function it_user_cannot_create_a_topic_without_category()
     {
         $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
             'category_id' => '',
@@ -132,7 +137,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_create_topic_without_title()
+    /** @test */
+    public function it_user_cannot_create_a_topic_without_title()
     {
         $category = factory(Category::class)->create();
 
@@ -151,7 +157,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_create_topic_without_content()
+    /** @test */
+    public function it_user_cannot_create_a_topic_without_content()
     {
         $category = factory(Category::class)->create();
 
@@ -170,7 +177,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_create_topic_without_situation()
+    /** @test */
+    public function it_user_cannot_create_a_topic_without_situation()
     {
         $category = factory(Category::class)->create();
 
@@ -189,7 +197,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('content'));
     }
 
-    public function test_user_can_view_a_edit_form()
+    /** @test */
+    public function it_user_can_view_a_edit_form()
     {
         $topic = factory(Topic::class)->create();
 
@@ -200,7 +209,8 @@ class TopicTest extends TestCase
         $response->assertViewIs('manager.topics.form');
     }
 
-    public function test_user_can_edit_a_topic()
+    /** @test */
+    public function it_user_can_edit_the_topic()
     {
         $category = factory(Category::class)->create();
 
@@ -238,7 +248,8 @@ class TopicTest extends TestCase
         ]);
     }
 
-    public function test_user_cannot_update_topic_without_category()
+    /** @test */
+    public function it_user_cannot_update_the_topic_without_category()
     {
         $category = factory(Category::class)->create();
 
@@ -274,7 +285,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_update_topic_without_title()
+    /** @test */
+    public function it_user_cannot_update_the_topic_without_title()
     {
         $category = factory(Category::class)->create();
 
@@ -312,7 +324,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_update_topic_without_content()
+    /** @test */
+    public function it_user_cannot_update_the_topic_without_content()
     {
         $category = factory(Category::class)->create();
 
@@ -350,7 +363,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_user_cannot_update_topic_without_situation()
+    /** @test */
+    public function it_user_cannot_update_the_topic_without_situation()
     {
         $category = factory(Category::class)->create();
 
@@ -388,7 +402,8 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('content'));
     }
 
-    public function test_user_can_delete_a_category()
+    /** @test */
+    public function it_user_can_delete_a_category()
     {
         $topic = factory(Topic::class)->create([
             'user_id' => $this->user->id

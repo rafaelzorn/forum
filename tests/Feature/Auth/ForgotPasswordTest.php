@@ -34,7 +34,8 @@ class ForgotPasswordTest extends TestCase
         return route('manager.dashboard');
     }
 
-    public function test_user_can_view_an_email_password_form()
+    /** @test */
+    public function it_user_can_view_an_email_password_form()
     {
         $response = $this->get($this->passwordRequestRoute());
 
@@ -42,13 +43,15 @@ class ForgotPasswordTest extends TestCase
         $response->assertViewIs('auth.passwords.email');
     }
 
-    public function test_user_cannot_view_an_email_password_form_when_authenticated()
+    /** @test */
+    public function it_user_cannot_view_an_email_password_form_when_authenticated()
     {
         $response = $this->actingAs($this->user)->get($this->passwordRequestRoute());
         $response->assertRedirect($this->guestMiddlewareRoute());
     }
 
-    public function test_user_receives_an_email_with_a_password_reset_link()
+    /** @test */
+    public function it_user_receives_an_email_with_a_password_reset_link()
     {
         Notification::fake();
 
@@ -67,7 +70,8 @@ class ForgotPasswordTest extends TestCase
         });
     }
 
-    public function test_email_is_required()
+    /** @test */
+    public function it_email_is_required()
     {
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), []);
 
@@ -75,7 +79,8 @@ class ForgotPasswordTest extends TestCase
         $response->assertSessionHasErrors(['email' => 'The email field is required.']);
     }
 
-    public function test_email_is_a_valid_email()
+    /** @test */
+    public function it_email_is_a_valid_email()
     {
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
             'email' => 'invalid-email',

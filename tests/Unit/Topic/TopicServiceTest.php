@@ -25,7 +25,8 @@ class TopicServiceTest extends TestCase
         $this->topicService = new TopicService($this->topicRepository);
     }
 
-    public function test_can_store()
+    /** @test */
+    public function it_can_store()
     {
         $user = factory(User::class)->create();
 
@@ -56,7 +57,8 @@ class TopicServiceTest extends TestCase
         $this->assertEquals('Topic successfully registered.', $request['message']);
     }
 
-    public function test_store_errors()
+    /** @test */
+    public function it_errors_when_store()
     {
         $request = $this->topicService->store([]);
 
@@ -66,7 +68,8 @@ class TopicServiceTest extends TestCase
         $this->assertEquals('Topic error registered.', $request['message']);
     }
 
-    public function test_can_update()
+    /** @test */
+    public function it_can_update()
     {
         $category = factory(Category::class)->create();
 
@@ -103,7 +106,8 @@ class TopicServiceTest extends TestCase
         $this->assertEquals('Topic successfully updated.', $request['message']);
     }
 
-    public function test_update_with_topic_that_does_not_exist()
+    /** @test */
+    public function it_cannot_update_topic_that_does_not_exist()
     {
         $category = factory(Category::class)->create();
 
@@ -140,7 +144,8 @@ class TopicServiceTest extends TestCase
         $this->assertEquals('Topic error updated.', $request['message']);
     }
 
-    public function test_can_destroy()
+    /** @test */
+    public function it_can_destroy()
     {
         $topic = factory(Topic::class)->create();
 
@@ -152,7 +157,8 @@ class TopicServiceTest extends TestCase
         $this->assertEquals('Topic deleted successfully.', $request['message']);
     }
 
-    public function test_destroy_with_topic_that_does_not_exist()
+    /** @test */
+    public function it_cannot_destroy_category_that_does_not_exist()
     {
         $topic = factory(Topic::class)->create();
 

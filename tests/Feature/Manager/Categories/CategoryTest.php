@@ -40,7 +40,8 @@ class CategoryTest extends TestCase
         return route('manager.categories.destroy', $id);
     }
 
-    public function test_admin_can_view_category_pages()
+    /** @test */
+    public function it_admin_can_view_categories_pages()
     {
         $category = factory(Category::class)->create();
 
@@ -57,7 +58,8 @@ class CategoryTest extends TestCase
         }
     }
 
-    public function test_user_cannot_view_category_pages()
+    /** @test */
+    public function it_user_cannot_view_category_pages()
     {
         $category = factory(Category::class)->create();
 
@@ -78,7 +80,8 @@ class CategoryTest extends TestCase
         }
     }
 
-    public function test_admin_can_view_categories_list()
+    /** @test */
+    public function it_admin_can_view_categories_list()
     {
         $categories = factory(Category::class, 3)->make();
 
@@ -92,7 +95,8 @@ class CategoryTest extends TestCase
         });
     }
 
-    public function test_admin_can_view_a_create_form()
+    /** @test */
+    public function it_admin_can_view_a_create_form()
     {
         $response = $this->actingAs($this->admin)->get($this->categoryCreateGetRoute());
         $response->assertSuccessful();
@@ -100,7 +104,8 @@ class CategoryTest extends TestCase
         $response->assertViewIs('manager.categories.form');
     }
 
-    public function test_admin_can_create_a_category()
+    /** @test */
+    public function it_admin_can_create_a_category()
     {
         $response = $this->actingAs($this->admin)->post($this->categoryStoreRoute(), [
             'name' => 'Category One',
@@ -121,7 +126,8 @@ class CategoryTest extends TestCase
         ]);
     }
 
-    public function test_admin_cannot_create_category_without_name()
+    /** @test */
+    public function it_admin_cannot_create_a_category_without_name()
     {
         $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => '',
@@ -134,7 +140,8 @@ class CategoryTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_admin_cannot_create_category_without_situation()
+    /** @test */
+    public function it_admin_cannot_create_a_category_without_situation()
     {
         $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => 'Category One',
@@ -147,7 +154,8 @@ class CategoryTest extends TestCase
         $this->assertTrue(session()->hasOldInput('name'));
     }
 
-    public function test_admin_can_view_a_edit_form()
+    /** @test */
+    public function it_admin_can_view_a_edit_form()
     {
         $category = factory(Category::class)->create();
 
@@ -157,7 +165,8 @@ class CategoryTest extends TestCase
         $response->assertViewIs('manager.categories.form');
     }
 
-    public function test_admin_can_edit_a_category()
+    /** @test */
+    public function it_admin_can_edit_the_category()
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
@@ -183,7 +192,8 @@ class CategoryTest extends TestCase
         ]);
     }
 
-    public function test_admin_cannot_update_category_without_name()
+    /** @test */
+    public function it_admin_cannot_update_the_category_without_name()
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
@@ -207,7 +217,8 @@ class CategoryTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
-    public function test_admin_cannot_update_category_without_situation()
+    /** @test */
+    public function it_admin_cannot_update_the_category_without_situation()
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
@@ -231,7 +242,8 @@ class CategoryTest extends TestCase
         $this->assertTrue(session()->hasOldInput('name'));
     }
 
-    public function test_admin_can_delete_a_category()
+    /** @test */
+    public function it_admin_can_delete_a_category()
     {
         $category = factory(Category::class)->create();
 
