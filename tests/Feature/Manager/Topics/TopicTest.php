@@ -12,32 +12,32 @@ class TopicTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function topicIndexGetRoute()
+    private function topicIndexGetRoute()
     {
         return route('manager.topics.index');
     }
 
-    protected function topicCreateGetRoute()
+    private function topicCreateGetRoute()
     {
         return route('manager.topics.create');
     }
 
-    protected function topicStoreRoute()
+    private function topicStoreRoute()
     {
         return route('manager.topics.store');
     }
 
-    protected function topicEditGetRoute($id)
+    private function topicEditGetRoute($id)
     {
         return route('manager.topics.edit', $id);
     }
 
-    protected function topicUpdateRoute($id)
+    private function topicUpdateRoute($id)
     {
         return route('manager.topics.update', $id);
     }
 
-    protected function topicDeleteRoute($id)
+    private function topicDeleteRoute($id)
     {
         return route('manager.topics.destroy', $id);
     }

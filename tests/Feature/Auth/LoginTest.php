@@ -10,32 +10,32 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function successfulLoginRoute()
+    private function successfulLoginRoute()
     {
         return route('manager.dashboard');
     }
 
-    protected function loginGetRoute()
+    private function loginGetRoute()
     {
         return route('login');
     }
 
-    protected function loginPostRoute()
+    private function loginPostRoute()
     {
         return route('login');
     }
 
-    protected function logoutRoute()
+    private function logoutRoute()
     {
         return route('logout');
     }
 
-    protected function guestMiddlewareRoute()
+    private function guestMiddlewareRoute()
     {
         return route('manager.dashboard');
     }
 
-    protected function successfulLogoutRoute()
+    private function successfulLogoutRoute()
     {
         return '/';
     }

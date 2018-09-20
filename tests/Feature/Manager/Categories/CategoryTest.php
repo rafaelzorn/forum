@@ -10,32 +10,32 @@ class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function categoryIndexGetRoute()
+    private function categoryIndexGetRoute()
     {
         return route('manager.categories.index');
     }
 
-    protected function categoryCreateGetRoute()
+    private function categoryCreateGetRoute()
     {
         return route('manager.categories.create');
     }
 
-    protected function categoryStoreRoute()
+    private function categoryStoreRoute()
     {
         return route('manager.categories.store');
     }
 
-    protected function categoryEditGetRoute($id)
+    private function categoryEditGetRoute($id)
     {
         return route('manager.categories.edit', $id);
     }
 
-    protected function categoryUpdateRoute($id)
+    private function categoryUpdateRoute($id)
     {
         return route('manager.categories.update', $id);
     }
 
-    protected function categoryDeleteRoute($id)
+    private function categoryDeleteRoute($id)
     {
         return route('manager.categories.destroy', $id);
     }

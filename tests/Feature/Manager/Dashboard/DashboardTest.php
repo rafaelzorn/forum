@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-    protected function dashboardGetRoute()
+    private function dashboardGetRoute()
     {
         return route('manager.dashboard');
     }

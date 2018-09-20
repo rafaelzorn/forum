@@ -18,22 +18,22 @@ class RegisterTest extends TestCase
         parent::setUp();
     }
 
-    protected function successfulRegistrationRoute()
+    private function successfulRegistrationRoute()
     {
         return route('manager.dashboard');
     }
 
-    protected function registerGetRoute()
+    private function registerGetRoute()
     {
         return route('register');
     }
 
-    protected function registerPostRoute()
+    private function registerPostRoute()
     {
         return route('register');
     }
 
-    protected function guestMiddlewareRoute()
+    private function guestMiddlewareRoute()
     {
         return route('manager.dashboard');
     }

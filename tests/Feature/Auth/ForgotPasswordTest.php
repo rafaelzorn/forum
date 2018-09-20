@@ -14,22 +14,22 @@ class ForgotPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function passwordRequestRoute()
+    private function passwordRequestRoute()
     {
         return route('password.request');
     }
 
-    protected function passwordEmailPostRoute()
+    private function passwordEmailPostRoute()
     {
         return route('password.email');
     }
 
-    protected function passwordEmailGetRoute()
+    private function passwordEmailGetRoute()
     {
         return route('password.email');
     }
 
-    protected function guestMiddlewareRoute()
+    private function guestMiddlewareRoute()
     {
         return route('manager.dashboard');
     }
