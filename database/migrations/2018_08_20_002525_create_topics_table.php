@@ -20,7 +20,7 @@ class CreateTopicsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
 
             $table->timestamps();
             $table->softDeletes();

@@ -158,6 +158,26 @@ class TopicTest extends TestCase
     }
 
     /** @test */
+    public function it_user_cannot_create_a_topic_that_exceeds_the_character_limit()
+    {
+        $category = factory(Category::class)->create();
+
+        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
+            'category_id' => $category->id,
+            'title' => str_random(256),
+            'content' => 'This is a test text',
+            'active' => 1,
+        ]);
+
+        $this->assertCount(0, Topic::all());
+        $response->assertRedirect($this->topicCreateGetRoute());
+        $response->assertSessionHasErrors(['title' => 'The title may not be greater than 255 characters.']);
+        $this->assertTrue(session()->hasOldInput('category_id'));
+        $this->assertTrue(session()->hasOldInput('content'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
     public function it_user_cannot_create_a_topic_without_content()
     {
         $category = factory(Category::class)->create();
@@ -175,26 +195,6 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('category_id'));
         $this->assertTrue(session()->hasOldInput('title'));
         $this->assertTrue(session()->hasOldInput('active'));
-    }
-
-    /** @test */
-    public function it_user_cannot_create_a_topic_without_situation()
-    {
-        $category = factory(Category::class)->create();
-
-        $response = $this->actingAs($this->user)->from($this->topicCreateGetRoute())->post($this->topicStoreRoute(), [
-            'category_id' => $category->id,
-            'title' => 'Topic One',
-            'content' => 'This is a test text',
-            'active' => '',
-        ]);
-
-        $this->assertCount(0, Topic::all());
-        $response->assertRedirect($this->topicCreateGetRoute());
-        $response->assertSessionHasErrors(['active' => 'The situation field is required.']);
-        $this->assertTrue(session()->hasOldInput('category_id'));
-        $this->assertTrue(session()->hasOldInput('title'));
-        $this->assertTrue(session()->hasOldInput('content'));
     }
 
     /** @test */
@@ -324,6 +324,45 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('active'));
     }
 
+     /** @test */
+    public function it_user_cannot_update_the_topic_that_exceeds_the_character_limit()
+    {
+        $category = factory(Category::class)->create();
+
+        $topic = factory(Topic::class)->create([
+            'user_id' => $this->user->id,
+            'category_id' => $category->id,
+            'title' => 'Topic One',
+            'content' => 'This is a test text one',
+            'active' => 1,
+        ]);
+
+        $otherCategory = factory(Category::class)->create();
+
+        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
+            'category_id' => $otherCategory->id,
+            'title' => str_random(256),
+            'content' => 'This is a test text two',
+            'active' => 1,
+        ]);
+
+        $this->assertCount(1, $topics = Topic::all());
+
+        $topic = $topics->first();
+
+        $this->assertEquals($this->user->id, $topic->user_id);
+        $this->assertEquals($category->id, $topic->category_id);
+        $this->assertEquals('Topic One', $topic->title);
+        $this->assertEquals('This is a test text one', $topic->content);
+        $this->assertEquals(1, $topic->active);
+
+        $response->assertRedirect($this->topicEditGetRoute($topic->id));
+        $response->assertSessionHasErrors(['title' => 'The title may not be greater than 255 characters.']);
+        $this->assertTrue(session()->hasOldInput('category_id'));
+        $this->assertTrue(session()->hasOldInput('content'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
     /** @test */
     public function it_user_cannot_update_the_topic_without_content()
     {
@@ -361,45 +400,6 @@ class TopicTest extends TestCase
         $this->assertTrue(session()->hasOldInput('category_id'));
         $this->assertTrue(session()->hasOldInput('title'));
         $this->assertTrue(session()->hasOldInput('active'));
-    }
-
-    /** @test */
-    public function it_user_cannot_update_the_topic_without_situation()
-    {
-        $category = factory(Category::class)->create();
-
-        $topic = factory(Topic::class)->create([
-            'user_id' => $this->user->id,
-            'category_id' => $category->id,
-            'title' => 'Topic One',
-            'content' => 'This is a test text one',
-            'active' => 1,
-        ]);
-
-        $otherCategory = factory(Category::class)->create();
-
-        $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
-            'category_id' => $otherCategory->id,
-            'title' => 'Topic Two',
-            'content' => 'This is a test text two',
-            'active' => '',
-        ]);
-
-        $this->assertCount(1, $topics = Topic::all());
-
-        $topic = $topics->first();
-
-        $this->assertEquals($this->user->id, $topic->user_id);
-        $this->assertEquals($category->id, $topic->category_id);
-        $this->assertEquals('Topic One', $topic->title);
-        $this->assertEquals('This is a test text one', $topic->content);
-        $this->assertEquals(1, $topic->active);
-
-        $response->assertRedirect($this->topicEditGetRoute($topic->id));
-        $response->assertSessionHasErrors(['active' => 'The situation field is required.']);
-        $this->assertTrue(session()->hasOldInput('category_id'));
-        $this->assertTrue(session()->hasOldInput('title'));
-        $this->assertTrue(session()->hasOldInput('content'));
     }
 
     /** @test */

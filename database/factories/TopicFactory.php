@@ -16,6 +16,6 @@ $factory->define(Topic::class, function (Faker $faker) {
         },
         'title' => 'Título de teste',
         'content' => 'Conteúdo de teste.',
-        'active' => 1
+        'active' => true
     ];
 });

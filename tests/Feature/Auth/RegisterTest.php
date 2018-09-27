@@ -72,6 +72,7 @@ class RegisterTest extends TestCase
         $this->assertAuthenticatedAs($user = $users->first());
         $this->assertEquals('Rafael Zorn', $user->name);
         $this->assertEquals('rafael.zorn@example.com', $user->email);
+        $this->assertEquals(1, $user->active);
         $this->assertTrue(Hash::check('laravel-forever', $user->password));
 
         Event::assertDispatched(Registered::class, function ($e) use ($user) {

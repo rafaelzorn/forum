@@ -7,7 +7,7 @@
             @include('layouts.includes.messages.error')
             @include('layouts.includes.messages.success')
 
-            <h4 class="page-title">{{ $edit ? 'Update' : 'New' }} Topic</h4>
+            <h4 class="page-title">{{ $edit ? __('main.update') : __('main.new') }} @lang('main.topic')</h4>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <div class="col-xs-12">
                             <select class="form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" name="category_id" id="category_id" required autofocus>
-                                <option value="">Select the category</option>
+                                <option value="">@lang('main.select') @lang('the') @lang('main.category')</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $topic->category_id) === $category->id ? 'selected' : null }}>{{ $category->name }}</option>
                                 @endforeach
@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input id="name" type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title', $topic->title) }}" placeholder="Title" required>
+                            <input id="name" type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title', $topic->title) }}" maxlength="255" placeholder="@lang('main.title')" required>
 
                             @if ($errors->has('title'))
                                 <div class="invalid-feedback">
@@ -52,7 +52,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <textarea id="content" name="content" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" placeholder="Content" required>{{ old('content', $topic->content) }}</textarea>
+                            <textarea id="content" name="content" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" placeholder="@lang('main.content')" required>{{ old('content', $topic->content) }}</textarea>
 
                             @if ($errors->has('content'))
                                 <div class="invalid-feedback">
@@ -64,22 +64,15 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <select class="form-control{{ $errors->has('active') ? ' is-invalid' : '' }}" name="active" id="active" required>
-                                <option value="">Select the situation</option>
-                                <option value="1" {{ old('active', $topic->active) === true ? 'selected' : null }}>Active</option>
-                                <option value="0" {{ old('active', $topic->active) === false ? 'selected' : null }}>Inactive</option>
-                            </select>
-
-                            @if ($errors->has('active'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('active') }}
-                                </div>
-                            @endif
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="active" id="active" value="1" @if (old('active', $topic->active)) checked @endif>
+                                <label class="custom-control-label" for="active">@lang('main.active') (@lang('main.if_it_is_not_active'), @lang('main.form_topic.topics_will_not_appear_on_the_site'))</label>
+                            </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <a href="{{ route('manager.topics.index') }}" class="btn btn-info">Return</a>
+                    <button type="submit" class="btn btn-success">@lang('main.save')</button>
+                    <a href="{{ route('manager.topics.index') }}" class="btn btn-info">@lang('main.return')</a>
                 </form>
             </div>
         </div>

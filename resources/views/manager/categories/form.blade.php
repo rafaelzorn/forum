@@ -7,7 +7,7 @@
             @include('layouts.includes.messages.error')
             @include('layouts.includes.messages.success')
 
-            <h4 class="page-title">{{ $edit ? 'Update' : 'New' }} Category</h4>
+            <h4 class="page-title">{{ $edit ? __('main.update') : __('main.new') }} @lang('main.category')</h4>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name', $category->name) }}" placeholder="Name" required autofocus>
+                            <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name', $category->name) }}" placeholder="@lang('main.name')" maxlength="255" required autofocus>
 
                             @if ($errors->has('name'))
                                 <div class="invalid-feedback">
@@ -35,22 +35,15 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <select class="form-control{{ $errors->has('active') ? ' is-invalid' : '' }}" name="active" id="active" required>
-                                <option value="">Select the situation</option>
-                                <option value="1" {{ old('active', $category->active) === true ? 'selected' : null }}>Active</option>
-                                <option value="0" {{ old('active', $category->active) === false ? 'selected' : null }}>Inactive</option>
-                            </select>
-
-                            @if ($errors->has('active'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('active') }}
-                                </div>
-                            @endif
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="active" id="active" value="1" @if (old('active', $category->active)) checked @endif>
+                                <label class="custom-control-label" for="active">@lang('main.active') (@lang('main.if_it_is_not_active'), @lang('main.form_category.category_can_not_be_used'))</label>
+                            </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <a href="{{ route('manager.categories.index') }}" class="btn btn-info">Return</a>
+                    <button type="submit" class="btn btn-success">@lang('main.save')</button>
+                    <a href="{{ route('manager.categories.index') }}" class="btn btn-info">@lang('main.return')</a>
                 </form>
             </div>
         </div>

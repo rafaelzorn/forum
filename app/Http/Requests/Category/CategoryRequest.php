@@ -24,16 +24,7 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'   => 'required',
-            'active' => 'required'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'name.required'   => 'The name field is required.',
-            'active.required' => 'The situation field is required.'
+            'name' => 'required|max:255',
         ];
     }
 }

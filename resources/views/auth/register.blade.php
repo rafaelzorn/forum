@@ -3,7 +3,7 @@
 @section('content')
     <section class="box-form-login">
         <div class="login-header">
-            <h5>Register</h5>
+            <h5>@lang('Register')</h5>
         </div>
 
         <form method="POST" action="{{ route('register') }}" class="form-horizontal">
@@ -11,7 +11,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <input id="name" type="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
+                    <input id="name" type="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="@lang('main.name')" required autofocus>
 
                     @if ($errors->has('name'))
                         <div class="invalid-feedback">
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="E-mail" required>
+                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="@lang('main.email')" required>
 
                     @if ($errors->has('email'))
                         <div class="invalid-feedback">
@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Password" required>
+                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="@lang('main.password')" required>
 
                     @if ($errors->has('password'))
                         <div class="invalid-feedback">
@@ -47,16 +47,16 @@
 
             <div class="form-group m-b-30">
                 <div class="col-xs-12">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="@lang('main.confirm') @lang('main.password')" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-xs-12">
-                    <button type="submit" class="btn btn-lg btn-info btn-block btn-log-in m-b-30">Register</button>
+                    <button type="submit" class="btn btn-lg btn-info btn-block btn-log-in m-b-30">@lang('main.register')</button>
                 </div>
 
-                <p>Already registered? <a href="{{ route('login') }}">Login</a></p>
+                <p>@lang('main.already_registered')? <a href="{{ route('login') }}">@lang('main.login')</a></p>
             </div>
         </form>
     </section>

@@ -10,7 +10,7 @@
             <h4 class="page-title">Categories</h4>
             <a href="{{ route('manager.categories.create') }}" class="btn btn-success btn-sm min-w-110">
                 <i class="fa fa-plus"></i>
-                New
+                @lang('main.new')
             </a>
         </div>
     </div>
@@ -21,8 +21,8 @@
                 <table class="table table-hover table-sm table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Active</th>
+                            <th scope="col">@lang('main.name')</th>
+                            <th scope="col">@lang('main.active')</th>
                             <th scope="col" style="width: 15%;"></th>
                         </tr>
                     </thead>
@@ -37,14 +37,14 @@
 
                                         <a href="{{ route('manager.categories.edit', $category->id) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-edit"></i>
-                                            Edit
+                                            @lang('main.edit')
                                         </a>
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>
-                                                Delete
+                                                @lang('main.delete')
                                             </button>
                                         </form>
                                     </td>
@@ -52,7 +52,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="3">No categories found</td>
+                                <td colspan="3">@lang('messages.no_categories_found')</td>
                             </tr>
                         @endif
                     </tbody>

@@ -25,19 +25,8 @@ class TopicRequest extends FormRequest
     {
         return [
             'category_id' => 'required',
-            'title'       => 'required',
+            'title'       => 'required|max:255',
             'content'     => 'required',
-            'active'      => 'required'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'category_id.required' => 'The category field is required.',
-            'title.required'       => 'The title field is required.',
-            'content.required'     => 'The content field is required.',
-            'active.required'      => 'The situation field is required.'
         ];
     }
 }

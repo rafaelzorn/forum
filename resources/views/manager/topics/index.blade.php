@@ -7,10 +7,10 @@
             @include('layouts.includes.messages.error')
             @include('layouts.includes.messages.success')
 
-            <h4 class="page-title">Topics</h4>
+            <h4 class="page-title">@lang('main.topics')</h4>
             <a href="{{ route('manager.topics.create') }}" class="btn btn-success btn-sm min-w-110">
                 <i class="fa fa-plus"></i>
-                New
+                @lang('main.new')
             </a>
         </div>
     </div>
@@ -21,9 +21,9 @@
                 <table class="table table-hover table-sm table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Category</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Active</th>
+                            <th scope="col">@lang('main.category')</th>
+                            <th scope="col">@lang('main.title')</th>
+                            <th scope="col">@lang('main.active')</th>
                             <th scope="col" style="width: 15%;"></th>
                         </tr>
                     </thead>
@@ -39,14 +39,14 @@
 
                                         <a href="{{ route('manager.topics.edit', $topic->id) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-edit"></i>
-                                            Edit
+                                            @lang('main.edit')
                                         </a>
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-trash"></i>
-                                                Delete
+                                                @lang('main.delete')
                                             </button>
                                         </form>
                                     </td>
@@ -54,7 +54,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="3">No topics found</td>
+                                <td colspan="3">@lang('main.no_topics_found')</td>
                             </tr>
                         @endif
                     </tbody>

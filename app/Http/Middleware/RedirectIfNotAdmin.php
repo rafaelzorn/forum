@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Lang;
 
 class RedirectIfNotAdmin
 {
@@ -23,7 +24,7 @@ class RedirectIfNotAdmin
 
         $request->session()->flash('message',[
             'type' 	  => 'warning',
-            'message' => 'You must be an administrator to see this page.'
+            'message' => Lang::get('messages.only_administrator_see_page'),
         ]);
 
         return redirect()->back();

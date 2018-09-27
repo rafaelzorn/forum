@@ -5,6 +5,7 @@ namespace App\Forum\Topic\Services;
 use App\Forum\Topic\Repositories\TopicRepository;
 use Exception;
 use Auth;
+use Lang;
 
 class TopicService
 {
@@ -24,12 +25,12 @@ class TopicService
 
             return [
                 'type' => 'success',
-                'message' => 'Topic successfully registered.'
+                'message' => Lang::get('messages.topic_successfully_registered'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Topic error registered.'
+                'message' => Lang::get('messages.topic_error_registered'),
             ];
         }
     }
@@ -42,12 +43,12 @@ class TopicService
 
             return [
                 'type' => 'success',
-                'message' => 'Topic successfully updated.'
+                'message' => Lang::get('messages.topic_successfully_updated'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Topic error updated.'
+                'message' => Lang::get('messages.topic_error_updated'),
             ];
         }
     }
@@ -60,12 +61,12 @@ class TopicService
 
             return [
                 'type' => 'success',
-                'message' => 'Topic deleted successfully.'
+                'message' => Lang::get('messages.topic_deleted_successfully'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Topic deleted error.'
+                'message' => Lang::get('messages.topic_deleted_error'),
             ];
         }
     }

@@ -4,6 +4,7 @@ namespace App\Forum\Category\Services;
 
 use App\Forum\Category\Repositories\CategoryRepository;
 use Exception;
+use Lang;
 
 class CategoryService
 {
@@ -21,12 +22,12 @@ class CategoryService
 
             return [
                 'type' => 'success',
-                'message' => 'Category successfully registered.'
+                'message' => Lang::get('messages.category_successfully_registered'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Category error registered.'
+                'message' => Lang::get('messages.category_error_registered'),
             ];
         }
     }
@@ -39,12 +40,12 @@ class CategoryService
 
             return [
                 'type' => 'success',
-                'message' => 'Category successfully updated.'
+                'message' => Lang::get('messages.category_successfully_updated'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Category error updated.'
+                'message' => Lang::get('messages.category_error_updated'),
             ];
         }
     }
@@ -57,12 +58,12 @@ class CategoryService
 
             return [
                 'type' => 'success',
-                'message' => 'Category deleted successfully.'
+                'message' => Lang::get('messages.category_deleted_successfully'),
             ];
         } catch (Exception $e) {
             return [
                 'type' => 'error',
-                'message' => 'Category deleted error.'
+                'message' => Lang::get('messages.category_deleted_error'),
             ];
         }
     }

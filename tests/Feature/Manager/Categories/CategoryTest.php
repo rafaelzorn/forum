@@ -141,17 +141,17 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function it_admin_cannot_create_a_category_without_situation()
+    public function it_admin_cannot_create_a_category_that_exceeds_the_character_limit()
     {
         $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
-            'name' => 'Category One',
-            'active' => '',
+            'name' => str_random(256),
+            'active' => 1,
         ]);
 
         $this->assertCount(0, Category::all());
         $response->assertRedirect($this->categoryCreateGetRoute());
-        $response->assertSessionHasErrors(['active' => 'The situation field is required.']);
-        $this->assertTrue(session()->hasOldInput('name'));
+        $response->assertSessionHasErrors(['name' => 'The name may not be greater than 255 characters.']);
+        $this->assertTrue(session()->hasOldInput('active'));   
     }
 
     /** @test */
@@ -218,7 +218,7 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function it_admin_cannot_update_the_category_without_situation()
+    public function it_admin_cannot_update_the_category_that_exceeds_the_character_limit()
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
@@ -226,8 +226,8 @@ class CategoryTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->admin)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
-            'name' => 'Category One',
-            'active' => '',
+            'name' => str_random(256),
+            'active' => 1,
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -238,8 +238,8 @@ class CategoryTest extends TestCase
         $this->assertEquals(1, $category->active);
 
         $response->assertRedirect($this->categoryEditGetRoute($category->id));
-        $response->assertSessionHasErrors(['active' => 'The situation field is required.']);
-        $this->assertTrue(session()->hasOldInput('name'));
+        $response->assertSessionHasErrors(['name' => 'The name may not be greater than 255 characters.']);
+        $this->assertTrue(session()->hasOldInput('active'));
     }
 
     /** @test */

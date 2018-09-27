@@ -5,7 +5,7 @@
         <div class="col-sm-12">
             @include('layouts.includes.messages.warning')
 
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">@lang('main.dashboard')</h4>
         </div>
     </div>
 @endsection
