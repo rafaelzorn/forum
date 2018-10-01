@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500, 700);@import url(https://fonts.googleapis.com/css?family=Karla:400, 700);@import url(https://fonts.googleapis.com/css?family=Rancho);/*!
+@import url(https://fonts.googleapis.com/css?family=Merriweather);/*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
@@ -12812,7 +12812,8 @@ body {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
-  font-family: "Roboto", sans-serif;
+  font-family: "Merriweather", serif;
+  font-size: 13px;
   background-color: #ecf0f1 !important;
 }
 
@@ -12842,6 +12843,12 @@ input {
 
 .btn {
   border-radius: 1px !important;
+}
+
+.form-control:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  border-color: #ced4da !important;
 }
 
 /* =============
@@ -12911,16 +12918,11 @@ input {
 .box-form-login {
   margin: 30px auto 0;
   padding: 10px 30px 10px;
+  width: 420px;
   background: #fff;
   -webkit-box-shadow: 0px 0px 24px #dedede;
           box-shadow: 0px 0px 24px #dedede;
   border: 1px solid #e5e5e5;
-}
-
-@media (min-width: 450px) {
-  .box-form-login {
-    width: 420px;
-  }
 }
 
 @media (max-width: 450px) {
@@ -12940,5 +12942,92 @@ input {
   padding: 5px 0px 5px 0px;
   border-radius: 0px;
   font-size: 15px;
+}
+
+/* =============
+   Home
+============= */
+
+.box-search {
+  padding: 5px;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  .box-search {
+    background-color: #ecf0f1;
+  }
+}
+
+.box-search .input-search {
+  width: 90%;
+  float: left;
+  border: 0;
+}
+
+@media (max-width: 700px) {
+  .box-search .input-search {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.box-search .btn-search {
+  padding: 7px;
+  width: 10%;
+}
+
+@media (max-width: 700px) {
+  .box-search .btn-search {
+    width: 100%;
+  }
+}
+
+.post-card {
+  margin-bottom: 20px;
+  color: #435966;
+  text-decoration: none;
+}
+
+.post-card:hover {
+  -webkit-box-shadow: 7px 10px 10px #d9d9d9;
+          box-shadow: 7px 10px 10px #d9d9d9;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  color: #435966;
+  text-decoration: none;
+}
+
+.post-card .box-initials {
+  margin: 15px auto;
+  background: #616db9;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+@media (max-width: 767px) {
+  .post-card .box-initials {
+    margin: 0 auto 15px auto;
+  }
+}
+
+.post-card .box-initials span {
+  display: block;
+  position: relative;
+  top: 10px;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.post-card .box-post-info {
+  margin-bottom: 10px;
+}
+
+.post-card .box-post-info span {
+  display: block;
 }
 

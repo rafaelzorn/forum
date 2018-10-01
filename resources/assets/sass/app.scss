@@ -1,7 +1,5 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Roboto:400, 300, 500, 700");
-@import url("https://fonts.googleapis.com/css?family=Karla:400, 700");
-@import url("https://fonts.googleapis.com/css?family=Rancho");
+@import url("https://fonts.googleapis.com/css?family=Merriweather");
 
 // Variables
 @import "variables";
@@ -9,6 +7,7 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+// Font Awesome
 @import "~font-awesome/css/font-awesome.css";
 
 /* =============
@@ -18,7 +17,8 @@ body {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-    font-family: "Roboto", sans-serif;
+    font-family: "Merriweather", serif;
+    font-size: 13px;
     background-color: #ecf0f1 !important;
 }
 
@@ -47,6 +47,11 @@ input {
 
 .btn {
     border-radius: 1px !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border-color: #ced4da !important;
 }
 
 /* =============
@@ -113,13 +118,10 @@ input {
 .box-form-login {
     margin: 30px auto 0;
     padding: 10px 30px 10px;
+    width: 420px;
     background: #fff;
     box-shadow: 0px 0px 24px #dedede;
     border: 1px solid #e5e5e5;
-
-    @media (min-width: 450px) {
-        width: 420px;
-    }
 
     @media (max-width: 450px) {
         width: 100%;
@@ -136,5 +138,81 @@ input {
         padding: 5px 0px 5px 0px;
         border-radius: 0px;
         font-size: 15px;
+    }
+}
+
+/* =============
+   Home
+============= */
+.box-search {
+    padding: 5px;
+    background: #fff;
+    margin-bottom: 20px;
+
+    @media (max-width: 700px) {
+        background-color: #ecf0f1;
+    }
+
+    .input-search {
+        width: 90%;
+        float: left;
+        border: 0;
+
+        @media (max-width: 700px) {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+    .btn-search {
+        padding: 7px;
+        width: 10%;
+
+        @media (max-width: 700px) {
+            width: 100%;
+        }
+    }
+}
+
+.post-card {
+    margin-bottom: 20px;
+    color: #435966;
+    text-decoration: none;
+
+    &:hover {
+        box-shadow: 7px 10px 10px #d9d9d9;
+        transition: 0.5s;
+        color: #435966;
+        text-decoration: none;
+    }
+
+    .box-initials {
+        margin: 15px auto;
+        background: #616db9;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+
+        @media (max-width: 767px) {
+            margin: 0 auto 15px auto;
+        }
+
+        span {
+            display: block;
+            position: relative;
+            top: 10px;
+            text-align: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+        }
+    }
+
+    .box-post-info {
+        margin-bottom: 10px;
+
+        span {
+            display: block;
+        }
     }
 }
