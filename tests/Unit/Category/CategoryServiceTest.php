@@ -28,7 +28,7 @@ class CategoryServiceTest extends TestCase
     {
         $request = $this->categoryService->store([
             'name'   => 'Category One',
-            'active' => 1
+            'active' => true
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -36,7 +36,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $this->assertEquals('success', $request['type']);
         $this->assertEquals('Category successfully registered.', $request['message']);
@@ -58,13 +58,13 @@ class CategoryServiceTest extends TestCase
     {
         $category = factory(Category::class)->create([
             'name'   => 'Category One',
-            'active' => 1
+            'active' => true
         ]);
 
         $request = $this->categoryService->update(
             [
             'name'   => 'Category Two',
-            'active' => 1
+            'active' => true
             ],
             $category->id
         );
@@ -74,7 +74,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category Two', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $this->assertEquals('success', $request['type']);
         $this->assertEquals('Category successfully updated.', $request['message']);
@@ -85,13 +85,13 @@ class CategoryServiceTest extends TestCase
     {
         $category = factory(Category::class)->create([
             'name'   => 'Category One',
-            'active' => 1
+            'active' => true
         ]);
 
         $request = $this->categoryService->update(
             [
                 'name'   => 'Category Two',
-                'active' => 1
+                'active' => true
             ],
             999
         );
@@ -101,7 +101,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $this->assertEquals('error', $request['type']);
         $this->assertEquals('Category error updated.', $request['message']);

@@ -99,7 +99,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -110,7 +110,7 @@ class TopicTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicIndexGetRoute());
         $response->assertSessionHas('message', [
@@ -126,7 +126,7 @@ class TopicTest extends TestCase
             'category_id' => '',
             'title' => 'Topic One',
             'content' => 'This is a test text',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(0, Topic::all());
@@ -146,7 +146,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => '',
             'content' => 'This is a test text',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(0, Topic::all());
@@ -186,7 +186,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => '',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(0, Topic::all());
@@ -219,7 +219,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $otherCategory = factory(Category::class)->create();
@@ -228,7 +228,7 @@ class TopicTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -239,7 +239,7 @@ class TopicTest extends TestCase
         $this->assertEquals($otherCategory->id, $topic->category_id);
         $this->assertEquals('Topic Two', $topic->title);
         $this->assertEquals('This is a test text two', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicIndexGetRoute());
         $response->assertSessionHas('message', [
@@ -258,14 +258,14 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $response = $this->actingAs($this->user)->from($this->topicEditGetRoute($topic->id))->put($this->topicUpdateRoute($topic->id), [
             'category_id' => '',
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -276,7 +276,7 @@ class TopicTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicEditGetRoute($topic->id));
         $response->assertSessionHasErrors(['category_id' => 'The category field is required.']);
@@ -295,7 +295,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $otherCategory = factory(Category::class)->create();
@@ -304,7 +304,7 @@ class TopicTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => '',
             'content' => 'This is a test text two',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -315,7 +315,7 @@ class TopicTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicEditGetRoute($topic->id));
         $response->assertSessionHasErrors(['title' => 'The title field is required.']);
@@ -334,7 +334,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $otherCategory = factory(Category::class)->create();
@@ -343,7 +343,7 @@ class TopicTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => str_random(256),
             'content' => 'This is a test text two',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -354,7 +354,7 @@ class TopicTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicEditGetRoute($topic->id));
         $response->assertSessionHasErrors(['title' => 'The title may not be greater than 255 characters.']);
@@ -373,7 +373,7 @@ class TopicTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text one',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $otherCategory = factory(Category::class)->create();
@@ -382,7 +382,7 @@ class TopicTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => '',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $topics = Topic::all());
@@ -393,7 +393,7 @@ class TopicTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text one', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $response->assertRedirect($this->topicEditGetRoute($topic->id));
         $response->assertSessionHasErrors(['content' => 'The content field is required.']);

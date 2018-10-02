@@ -109,7 +109,7 @@ class CategoryTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->post($this->categoryStoreRoute(), [
             'name' => 'Category One',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -117,7 +117,7 @@ class CategoryTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $response->assertRedirect($this->categoryIndexGetRoute());
         $response->assertSessionHas('message', [
@@ -131,7 +131,7 @@ class CategoryTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => '',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(0, Category::all());
@@ -145,13 +145,13 @@ class CategoryTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->from($this->categoryCreateGetRoute())->post($this->categoryStoreRoute(), [
             'name' => str_random(256),
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(0, Category::all());
         $response->assertRedirect($this->categoryCreateGetRoute());
         $response->assertSessionHasErrors(['name' => 'The name may not be greater than 255 characters.']);
-        $this->assertTrue(session()->hasOldInput('active'));   
+        $this->assertTrue(session()->hasOldInput('active'));
     }
 
     /** @test */
@@ -170,12 +170,12 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $response = $this->actingAs($this->admin)->put($this->categoryUpdateRoute($category->id), [
             'name' => 'Category Two',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -183,7 +183,7 @@ class CategoryTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category Two', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $response->assertRedirect($this->categoryIndexGetRoute());
         $response->assertSessionHas('message', [
@@ -197,12 +197,12 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $response = $this->actingAs($this->admin)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
             'name' => '',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -210,7 +210,7 @@ class CategoryTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $response->assertRedirect($this->categoryEditGetRoute($category->id));
         $response->assertSessionHasErrors(['name' => 'The name field is required.']);
@@ -222,12 +222,12 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create([
             'name' => 'Category One',
-            'active' => 1,
+            'active' => true,
         ]);
 
         $response = $this->actingAs($this->admin)->from($this->categoryEditGetRoute($category->id))->put($this->categoryUpdateRoute($category->id), [
             'name' => str_random(256),
-            'active' => 1,
+            'active' => true,
         ]);
 
         $this->assertCount(1, $categories = Category::all());
@@ -235,7 +235,7 @@ class CategoryTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
-        $this->assertEquals(1, $category->active);
+        $this->assertEquals(true, $category->active);
 
         $response->assertRedirect($this->categoryEditGetRoute($category->id));
         $response->assertSessionHasErrors(['name' => 'The name may not be greater than 255 characters.']);

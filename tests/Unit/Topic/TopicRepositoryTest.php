@@ -55,4 +55,20 @@ class TopicRepositoryTest extends TestCase
 
         $this->assertCount(2, $topics);
     }
+
+    /** @test */
+    public function it_user_can_view_only_active_topics()
+    {
+        factory(Topic::class)->create([
+            'active' => true
+        ]);
+
+        factory(Topic::class)->create([
+            'active' => false
+        ]);
+
+        $topics = $this->topicRepository->filter([], null, true);
+
+        $this->assertCount(1, $topics);
+    }
 }

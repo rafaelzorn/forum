@@ -7,7 +7,7 @@ return [
     | Main
     |--------------------------------------------------------------------------
     |
-    */  
+    */
 
     'login'                    => 'Login',
     'email'                    => 'E-mail',
@@ -35,7 +35,7 @@ return [
     'edit'                     => 'Edit',
     'delete'                   => 'Delete',
     'category'                 => 'Category',
-    'if_it_is_not_active'      => 'If it is not active',    
+    'if_it_is_not_active'      => 'If it is not active',
     'save'                     => 'Save',
     'return'                   => 'Return',
     'update'                   => 'Update',
@@ -48,5 +48,8 @@ return [
     'content'                  => 'content',
     'form_topic' => [
         'topics_will_not_appear_on_the_site' => 'topics will not appear on the site',
-    ]
+    ],
+    'by'                       => 'By',
+    'in'                       => 'in',
+    'search'                   => 'Search',
 ];

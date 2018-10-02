@@ -5,7 +5,6 @@ namespace App\Forum\Topic\Repositories;
 use App\Forum\Base\Repositories\BaseRepository;
 use App\Forum\Topic\Repositories\Contracts\TopicRepositoryInterface;
 use App\Forum\Topic\Models\Topic;
-use Auth;
 
 class TopicRepository extends BaseRepository implements TopicRepositoryInterface
 {
@@ -14,14 +13,12 @@ class TopicRepository extends BaseRepository implements TopicRepositoryInterface
         $this->model = $topic;
     }
 
-    public function filter($params = [], $take = null)
+    public function filter($params = [], $take = null, $active = false)
     {
-        $user = Auth::user();
+        $query = $this->model->newQuery()->isAdmin();
 
-        $query = $this->model->newQuery();
-
-        if (!$user->isAdmin()) {
-            $query->where('user_id', '=', $user->id);
+        if ($active) {
+            $query->active();
         }
 
         if (is_null($take)) {

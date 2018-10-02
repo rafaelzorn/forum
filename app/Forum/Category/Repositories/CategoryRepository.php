@@ -12,4 +12,9 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         $this->model = $category;
     }
+
+    public function getActives()
+    {
+        return $this->model->active()->get();
+    }
 }

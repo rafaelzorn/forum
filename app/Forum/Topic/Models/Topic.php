@@ -4,8 +4,10 @@ namespace App\Forum\Topic\Models;
 
 use App\Forum\Base\Models\Base;
 use App\Forum\Category\Models\Category;
+use App\Forum\User\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
 
 class Topic extends Base
 {
@@ -48,5 +50,24 @@ class Topic extends Base
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        $user = Auth::user();
+
+        if (!is_null($user) && !$user->isAdmin()) {
+            return $query->where('user_id', $user->id);
+        }
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
     }
 }

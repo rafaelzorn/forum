@@ -34,6 +34,15 @@ body {
     min-width: 110px;
 }
 
+a {
+    color: #435966;
+
+    &:hover {
+        color: #435966;
+        text-decoration: none;
+    }
+}
+
 /* =============
    Bootstrap
 ============= */

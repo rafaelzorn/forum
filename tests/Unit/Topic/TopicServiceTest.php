@@ -38,7 +38,7 @@ class TopicServiceTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
-            'active' => 1
+            'active' => true
         ];
 
         $request = $this->topicService->store($data);
@@ -51,7 +51,7 @@ class TopicServiceTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $this->assertEquals('success', $request['type']);
         $this->assertEquals('Topic successfully registered.', $request['message']);
@@ -77,7 +77,7 @@ class TopicServiceTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
-            'active' => 1
+            'active' => true
         ]);
 
         $otherCategory = factory(Category::class)->create([
@@ -88,7 +88,7 @@ class TopicServiceTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
-            'active' => 1
+            'active' => true
         ];
 
         $request = $this->topicService->update($data, $topic->id);
@@ -100,7 +100,7 @@ class TopicServiceTest extends TestCase
         $this->assertEquals($otherCategory->id, $topic->category_id);
         $this->assertEquals('Topic Two', $topic->title);
         $this->assertEquals('This is a test text two', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $this->assertEquals('success', $request['type']);
         $this->assertEquals('Topic successfully updated.', $request['message']);
@@ -115,7 +115,7 @@ class TopicServiceTest extends TestCase
             'category_id' => $category->id,
             'title' => 'Topic One',
             'content' => 'This is a test text',
-            'active' => 1
+            'active' => true
         ]);
 
         $otherCategory = factory(Category::class)->create([
@@ -126,7 +126,7 @@ class TopicServiceTest extends TestCase
             'category_id' => $otherCategory->id,
             'title' => 'Topic Two',
             'content' => 'This is a test text two',
-            'active' => 1
+            'active' => true
         ];
 
         $request = $this->topicService->update($data, 999);
@@ -138,7 +138,7 @@ class TopicServiceTest extends TestCase
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
         $this->assertEquals('This is a test text', $topic->content);
-        $this->assertEquals(1, $topic->active);
+        $this->assertEquals(true, $topic->active);
 
         $this->assertEquals('error', $request['type']);
         $this->assertEquals('Topic error updated.', $request['message']);
