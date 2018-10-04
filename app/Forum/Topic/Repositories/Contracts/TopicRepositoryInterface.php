@@ -6,5 +6,5 @@ use App\Forum\Base\Repositories\Contracts\BaseRepositoryInterface;
 
 interface TopicRepositoryInterface extends BaseRepositoryInterface
 {
-    public function filter($params = [], $take = null);
+    public function filter($params = [], $take = null, $active = false);
 }
