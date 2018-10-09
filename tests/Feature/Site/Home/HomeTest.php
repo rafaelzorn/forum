@@ -16,11 +16,17 @@ class HomeTest extends TestCase
         return route('home');
     }
 
+    private function filterGetRoute($params)
+    {
+        return route('search.topics', $params);
+    }
+
+    /** @test */
     public function it_user_can_view_home_page()
     {
         $response = $this->get($this->homeIndexGetRoute());
         $response->assertSuccessful();
-        $response->assertViewHas(['categories', 'topics']);
+        $response->assertViewHas(['categories', 'topics', 'filters']);
 
         $response->assertViewIs('site.home.index');
     }
@@ -53,5 +59,49 @@ class HomeTest extends TestCase
             $response->assertSee($topic->created_at->format('d/m/Y H:i'));
             $response->assertSee($topic->content);
         });
+    }
+
+    /** @test */
+    public function it_user_can_filter_topics_by_title_or_content_and_category_slug()
+    {
+        $category = factory(Category::class)->create();
+
+        $topic = factory(Topic::class)->create([
+            'category_id' => $category->id,
+            'title' => 'Topic One',
+            'content' => 'This is a test text one',
+        ]);
+
+        $response = $this->get($this->filterGetRoute([
+            'category' => $category->slug,
+            'keyword' => 'one'
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee($topic->title);
+        $response->assertSee($topic->category->name);
+        $response->assertSee($topic->user->name);
+        $response->assertSee($topic->created_at->format('d/m/Y H:i'));
+        $response->assertSee($topic->content);
+    }
+
+    /** @test */
+    public function filter_can_not_find_topics()
+    {
+        $category = factory(Category::class)->create();
+
+        $topic = factory(Topic::class)->create([
+            'category_id' => $category->id,
+            'title' => 'Topic One',
+            'content' => 'This is a test text one',
+        ]);
+
+        $response = $this->get($this->filterGetRoute([
+            'category' => 'Category Not Found',
+            'keyword' => 'Topic Not Found'
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee('No topics found :(');
     }
 }

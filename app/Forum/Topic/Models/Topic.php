@@ -57,7 +57,7 @@ class Topic extends Base
         return $this->belongsTo(User::class);
     }
 
-    public function scopeIsAdmin($query)
+    public function scopeIsNotAdmin($query)
     {
         $user = Auth::user();
 
@@ -68,6 +68,11 @@ class Topic extends Base
 
     public function scopeActive($query)
     {
-        return $query->where('active', 1);
+        return $query->where('topics.active', 1);
+    }
+
+    public function scopeJoinCategory($query)
+    {
+        return $query->join('categories', 'categories.id', '=', 'topics.category_id');
     }
 }

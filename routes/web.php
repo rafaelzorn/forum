@@ -35,6 +35,9 @@ Route::group(['prefix' => 'manager', 'middleware' => ['auth'], 'as' => 'manager.
 
 Route::namespace('Site')->group(function () {
 
-    #HOME
+    # HOME
     Route::get('/', 'HomeController@index')->name('home');
+
+    # TOPICS
+    Route::get('/topics', 'HomeController@index')->name('search.topics');
 });

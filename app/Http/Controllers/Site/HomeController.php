@@ -30,7 +30,8 @@ class HomeController extends Controller
 
         return view('site.home.index')->with(compact(
             'categories',
-            'topics'
+            'topics',
+            'filters'
         ));
     }
 }

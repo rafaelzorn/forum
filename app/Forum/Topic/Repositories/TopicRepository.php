@@ -15,7 +15,21 @@ class TopicRepository extends BaseRepository implements TopicRepositoryInterface
 
     public function filter($params = [], $take = null, $active = false)
     {
-        $query = $this->model->newQuery()->isAdmin();
+        $query = $this->model->newQuery()
+            ->select('topics.*')
+            ->joinCategory()
+            ->isNotAdmin();
+
+        if (isset($params['category']) && $params['category'] !== '') {
+            $query->where('categories.slug', $params['category']);
+        }
+
+        if (isset($params['keyword']) && $params['keyword'] !== '') {
+            $query->where(function ($query) use ($params) {
+                $query->orWhere('topics.title', 'like', '%'.$params['keyword'].'%')
+                    ->orWhere('topics.content', 'like', '%'.$params['keyword'].'%');
+            });
+        }
 
         if ($active) {
             $query->active();
