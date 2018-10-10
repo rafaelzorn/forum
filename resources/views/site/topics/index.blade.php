@@ -4,7 +4,7 @@
     <div class="row m-t-30">
         <div class="col-lg-8 float-left">
             <div class="box-search">
-                <form action="{{ route('search.topics') }}" method="get">
+                <form action="{{ route('topics.search') }}" method="get">
                     <input type="hidden" name="category" value="{{ $filters['category'] or null }}">
                     <input type="text" class="form-control input-search" autocomplete="off" name="keyword" placeholder="@lang('main.search')..." value="{{ $filters['keyword'] or null }}">
                     <button type="submit" class="btn btn-search btn-success">@lang('main.search')</button>
@@ -15,7 +15,7 @@
 
             @if ($topics->isNotEmpty())
                 @foreach ($topics as $topic)
-                    <a href="#" class="post-card card">
+                    <a href="{{ route('topics.show', $topic->slug) }}" class="post-card card">
                         <div class="card-body">
                             <div>
                                 <div class="row">
@@ -49,9 +49,9 @@
             <div class="col-lg-4 float-left">
                 <div class="list-group">
                     @foreach ($categories as $category)
-                        <a href="{{ route('search.topics', ['category' => $category->slug, 'keyword' => isset($filters['keyword']) ? $filters['keyword'] : null]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ isset($filters['category']) && $filters['category'] === $category->slug ? 'active' : null }}">
+                        <a href="{{ route('topics.search', ['category' => $category->slug, 'keyword' => isset($filters['keyword']) ? $filters['keyword'] : null]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ isset($filters['category']) && $filters['category'] === $category->slug ? 'active' : null }}">
                             {{ $category->name }}
-                            <span class="badge badge-dark badge-pill">14</span>
+                            <span class="badge badge-dark badge-pill">{{ $category->topics->count() }}</span>
                         </a>
                     @endforeach
                 </div>

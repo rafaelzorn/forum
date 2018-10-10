@@ -29,6 +29,11 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model;
     }
 
+    public function findOrFailBy(array $data)
+    {
+        return $this->model->where($data)->firstOrFail();
+    }
+
     public function create(array $attributes)
     {
         return $this->model->create($attributes);

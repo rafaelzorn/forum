@@ -12,6 +12,8 @@ interface BaseRepositoryInterface
 
     public function findOrFail($id, $columns = ['*']);
 
+    public function findOrFailBy(array $data);
+
     public function create(array $attributes);
 
     public function update(array $values);

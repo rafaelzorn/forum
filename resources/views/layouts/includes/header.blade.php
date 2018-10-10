@@ -5,6 +5,14 @@
                 Forum
             </div>
 
+            @guest
+                <div class="dropdown nav-user">
+                    <a class="nav-link" href="{{ route('login') }}">
+                        Login
+                    </a>
+                </div>
+            @endguest
+
             @auth
                 <div class="dropdown nav-user">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -34,7 +42,7 @@
     <div class="navbar-custom">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="{{ route('home') }}">@lang('main.home')</a>
+                <a class="nav-link nav-link-custom" href="{{ route('topics.index') }}">@lang('main.home')</a>
             </li>
 
             @auth

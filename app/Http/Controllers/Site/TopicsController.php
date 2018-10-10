@@ -7,7 +7,7 @@ use App\Forum\Topic\Repositories\Contracts\TopicRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class TopicsController extends Controller
 {
     private $categoryRepository;
     private $topicRepository;
@@ -28,10 +28,19 @@ class HomeController extends Controller
         $categories = $this->categoryRepository->getActives();
         $topics     = $this->topicRepository->filter($filters, 15, true);
 
-        return view('site.home.index')->with(compact(
+        return view('site.topics.index')->with(compact(
             'categories',
             'topics',
             'filters'
+        ));
+    }
+
+    public function show($slug)
+    {
+        $topic = $this->topicRepository->findOrFailBy(['slug' => $slug]);
+
+        return view('site.topics.show')->with(compact(
+            'topic'
         ));
     }
 }

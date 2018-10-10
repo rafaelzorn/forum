@@ -1,34 +1,39 @@
 <?php
 
-namespace Tests\Feature\Site\Home;
+namespace Tests\Feature\Site\Topics;
 
 use App\Forum\Topic\Models\Topic;
 use App\Forum\Category\Models\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class HomeTest extends TestCase
+class TopicTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function homeIndexGetRoute()
+    private function topicIndexGetRoute()
     {
-        return route('home');
+        return route('topics.index');
     }
 
-    private function filterGetRoute($params)
+    private function topicSearchGetRoute($params)
     {
-        return route('search.topics', $params);
+        return route('topics.search', $params);
+    }
+
+    private function topicShowGetRoute($slug)
+    {
+        return route('topics.show', $slug);
     }
 
     /** @test */
     public function it_user_can_view_home_page()
     {
-        $response = $this->get($this->homeIndexGetRoute());
+        $response = $this->get($this->topicIndexGetRoute());
         $response->assertSuccessful();
         $response->assertViewHas(['categories', 'topics', 'filters']);
 
-        $response->assertViewIs('site.home.index');
+        $response->assertViewIs('site.topics.index');
     }
 
     /** @test */
@@ -36,11 +41,12 @@ class HomeTest extends TestCase
     {
         $categories = factory(Category::class, 2)->make();
 
-        $response = $this->get($this->homeIndexGetRoute());
+        $response = $this->get($this->topicIndexGetRoute());
         $response->assertSuccessful();
 
         $categories->each(function($category) use ($response) {
             $response->assertSee($category->title);
+            $response->assertSee($category->topics->count());
         });
     }
 
@@ -49,7 +55,7 @@ class HomeTest extends TestCase
     {
         $topics = factory(Topic::class, 2)->create();
 
-        $response = $this->get($this->homeIndexGetRoute());
+        $response = $this->get($this->topicIndexGetRoute());
         $response->assertSuccessful();
 
         $topics->each(function($topic) use ($response) {
@@ -72,7 +78,7 @@ class HomeTest extends TestCase
             'content' => 'This is a test text one',
         ]);
 
-        $response = $this->get($this->filterGetRoute([
+        $response = $this->get($this->topicSearchGetRoute([
             'category' => $category->slug,
             'keyword' => 'one'
         ]));
@@ -96,12 +102,34 @@ class HomeTest extends TestCase
             'content' => 'This is a test text one',
         ]);
 
-        $response = $this->get($this->filterGetRoute([
+        $response = $this->get($this->topicSearchGetRoute([
             'category' => 'Category Not Found',
             'keyword' => 'Topic Not Found'
         ]));
 
         $response->assertStatus(200);
         $response->assertSee('No topics found :(');
+    }
+
+    /** @test */
+    public function it_user_can_view_the_topic_page()
+    {
+        $topic = factory(Topic::class)->create();
+
+        $response = $this->get($this->topicShowGetRoute($topic->slug));
+        $response->assertSuccessful();
+        $response->assertViewHas(['topic']);
+        $response->assertViewIs('site.topics.show');
+    }
+
+    /** @test */
+    public function it_topic_does_not_exist()
+    {
+        $topic = factory(Topic::class)->create([
+            'title' => 'Teste 1'
+        ]);
+
+        $response = $this->get($this->topicShowGetRoute('teste-2'));
+        $response->assertStatus(404);
     }
 }
