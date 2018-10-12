@@ -12876,6 +12876,10 @@ input {
   margin-top: 15px;
 }
 
+.m-b-15 {
+  margin-bottom: 15px;
+}
+
 .padding-10 {
   padding: 10px;
 }
@@ -13038,5 +13042,35 @@ input {
 
 .post-card .box-post-info span {
   display: block;
+}
+
+/* =============
+   SHOW TOPICO
+============= */
+
+.topic-content .topic-title {
+  text-align: center;
+}
+
+.related-topics .related-topic {
+  margin-bottom: 5px;
+}
+
+.related-topics .related-topic .topic-content {
+  padding: 10px;
+}
+
+.related-topics .related-topic .topic-content h5 {
+  font-size: 13px;
+}
+
+.related-topics .related-topic .topic-content .info {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.related-topics .related-topic .topic-content p {
+  margin: 0;
+  font-size: 11px;
 }
 

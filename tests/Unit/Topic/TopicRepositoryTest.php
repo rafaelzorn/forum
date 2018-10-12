@@ -4,6 +4,7 @@ namespace Tests\Unit\Topic;
 
 use App\Forum\Topic\Models\Topic;
 use App\Forum\Category\Models\Category;
+use App\Forum\User\Models\User;
 use App\Forum\Topic\Repositories\TopicRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -163,5 +164,29 @@ class TopicRepositoryTest extends TestCase
             $this->assertEquals($item->content, $topic->content);
             $this->assertEquals($item->active, $topic->active);
         });
+    }
+
+    /** @test */
+    public function category_associated_with_a_topic()
+    {
+        $category = factory(Category::class)->create();
+
+        $topic = factory(Topic::class)->create([
+            'category_id' => $category->id
+        ]);
+
+        $this->assertEquals($topic->category->id, $category->id);
+    }
+
+    /** @test */
+    public function user_associated_with_a_topic()
+    {
+        $user = factory(User::class)->create();
+
+        $topic = factory(Topic::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->assertEquals($topic->user->id, $user->id);
     }
 }

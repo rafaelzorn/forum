@@ -35,11 +35,13 @@
                             </div>
 
                             <div class="content">
-                                {{ $topic->content }}
+                                <p>{{ $topic->content }}</p>
                             </div>
                         </div>
                     </a>
                 @endforeach
+
+                {{ $topics->appends($filters)->links() }}
             @else
                 <p>@lang('messages.no_topics_found') :(</p>
             @endif

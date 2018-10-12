@@ -38,7 +38,7 @@ class TopicRepositoryTest extends TestCase
     }
 
     /** @test */
-    public function products_associated_with_a_category()
+    public function topics_associated_with_a_category()
     {
         $category = factory(Category::class)->create();
 

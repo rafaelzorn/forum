@@ -26,7 +26,7 @@ class TopicsController extends Controller
         $filters = $request->all();
 
         $categories = $this->categoryRepository->getActives();
-        $topics     = $this->topicRepository->filter($filters, 15, true);
+        $topics     = $this->topicRepository->filter($filters, 10, true);
 
         return view('site.topics.index')->with(compact(
             'categories',

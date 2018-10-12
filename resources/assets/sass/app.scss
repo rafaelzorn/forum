@@ -78,6 +78,10 @@ input {
     margin-top: 15px;
 }
 
+.m-b-15 {
+    margin-bottom: 15px;
+}
+
 .padding-10 {
     padding: 10px;
 }
@@ -222,6 +226,40 @@ input {
 
         span {
             display: block;
+        }
+    }
+}
+
+/* =============
+   SHOW TOPICO
+============= */
+
+.topic-content {
+    .topic-title {
+        text-align: center;
+    }
+}
+
+.related-topics {
+    .related-topic {
+        margin-bottom: 5px;
+
+        .topic-content {
+            padding: 10px;
+
+            h5 {
+                font-size: 13px;
+            }
+
+            .info {
+                margin-bottom: 5px;
+                font-size: 12px;
+            }
+
+            p {
+                margin: 0;
+                font-size: 11px;
+            }
         }
     }
 }
