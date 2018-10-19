@@ -5,11 +5,15 @@ namespace App\Forum\Category\Models;
 use App\Forum\Base\Models\Base;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Category extends Base
 {
     use Sluggable;
     use SoftDeletes;
+    use PresentableTrait;
+
+    protected $presenter = \App\Forum\Category\Presenters\CategoryPresenter::class;
 
     /**
      * The table associated with the model.

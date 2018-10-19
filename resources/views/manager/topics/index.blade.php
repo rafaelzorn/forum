@@ -33,7 +33,9 @@
                                 <tr>
                                     <td>{{ $topic->category->name }}</td>
                                     <td>{{ $topic->title }}</td>
-                                    <td>{{ $topic->active }}</td>
+                                    <td>
+                                        <span class="badge badge-{{ $topic->present()->colorLabelActive }}">{{ $topic->present()->isActive }}</span>
+                                    </td>
                                     <td>
                                         <form method="POST" action="{{ route('manager.topics.destroy', $topic->id) }}" class="form-horizontal">
 

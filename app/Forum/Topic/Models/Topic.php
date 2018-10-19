@@ -7,12 +7,16 @@ use App\Forum\Category\Models\Category;
 use App\Forum\User\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Auth;
 
 class Topic extends Base
 {
     use Sluggable;
     use SoftDeletes;
+    use PresentableTrait;
+
+    protected $presenter = \App\Forum\Topic\Presenters\TopicPresenter::class;
 
     /**
      * The table associated with the model.

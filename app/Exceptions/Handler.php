@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\Access\AuthorizationException;
+use Lang;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof AuthorizationException) {
+            $request->session()->flash('message',[
+                'type' 	  => 'warning',
+                'message' => Lang::get('messages.you_do_not_have_permission'),
+            ]);
+
+            return redirect()->back();
+        }
+
         return parent::render($request, $exception);
     }
 }

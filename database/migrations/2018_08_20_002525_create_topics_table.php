@@ -18,7 +18,7 @@ class CreateTopicsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug')->nullable();
             $table->longText('content');
             $table->boolean('active')->default(false);
 

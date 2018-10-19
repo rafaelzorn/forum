@@ -36,6 +36,7 @@ class CategoryService
     {
         try {
             $this->categoryRepository->findOrFail($id);
+            $this->categoryRepository->slug = null;
             $this->categoryRepository->update($data);
 
             return [

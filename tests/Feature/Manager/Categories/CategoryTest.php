@@ -91,7 +91,7 @@ class CategoryTest extends TestCase
 
         $categories->each(function($category) use ($response) {
             $response->assertSee($category->title);
-            $response->assertSee($category->active);
+            $response->assertSee($category->present()->isActive);
         });
     }
 

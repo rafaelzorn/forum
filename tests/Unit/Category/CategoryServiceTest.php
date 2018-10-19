@@ -36,6 +36,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
+        $this->assertEquals('category-one', $category->slug);
         $this->assertEquals(true, $category->active);
 
         $this->assertEquals('success', $request['type']);
@@ -74,6 +75,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category Two', $category->name);
+        $this->assertEquals('category-two', $category->slug);
         $this->assertEquals(true, $category->active);
 
         $this->assertEquals('success', $request['type']);
@@ -101,6 +103,7 @@ class CategoryServiceTest extends TestCase
         $category = $categories->first();
 
         $this->assertEquals('Category One', $category->name);
+        $this->assertEquals('category-one', $category->slug);
         $this->assertEquals(true, $category->active);
 
         $this->assertEquals('error', $request['type']);

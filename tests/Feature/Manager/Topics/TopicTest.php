@@ -418,4 +418,20 @@ class TopicTest extends TestCase
             'message' => 'Topic deleted successfully.',
         ]);
     }
+
+    /** @test */
+    public function it_user_can_not_view_a_topic_editing_form_that_is_not_yours()
+    {
+        $topic = factory(Topic::class)->create([
+            'user_id' => 2
+        ]);
+
+        $response = $this->actingAs($this->user)->get($this->topicEditGetRoute($topic->id));
+        $response->assertStatus(302);
+
+        $response->assertSessionHas('message', [
+            'type' => 'warning',
+            'message' => 'You do not have permission.',
+        ]);
+    }
 }

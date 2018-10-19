@@ -50,6 +50,7 @@ class TopicServiceTest extends TestCase
         $this->assertEquals($user->id, $topic->user_id);
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
+        $this->assertEquals('topic-one', $topic->slug);
         $this->assertEquals('This is a test text', $topic->content);
         $this->assertEquals(true, $topic->active);
 
@@ -99,6 +100,7 @@ class TopicServiceTest extends TestCase
 
         $this->assertEquals($otherCategory->id, $topic->category_id);
         $this->assertEquals('Topic Two', $topic->title);
+        $this->assertEquals('topic-two', $topic->slug);
         $this->assertEquals('This is a test text two', $topic->content);
         $this->assertEquals(true, $topic->active);
 
@@ -137,6 +139,7 @@ class TopicServiceTest extends TestCase
 
         $this->assertEquals($category->id, $topic->category_id);
         $this->assertEquals('Topic One', $topic->title);
+        $this->assertEquals('topic-one', $topic->slug);
         $this->assertEquals('This is a test text', $topic->content);
         $this->assertEquals(true, $topic->active);
 

@@ -39,6 +39,7 @@ class TopicService
     {
         try {
             $this->topicRepository->findOrFail($id);
+            $this->topicRepository->slug = null;
             $this->topicRepository->update($data);
 
             return [
