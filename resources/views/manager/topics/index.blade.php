@@ -56,7 +56,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="3">@lang('messages.no_topics_found')</td>
+                                <td colspan="4">@lang('messages.no_topics_found')</td>
                             </tr>
                         @endif
                     </tbody>

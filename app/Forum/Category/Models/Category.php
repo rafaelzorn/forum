@@ -6,11 +6,13 @@ use App\Forum\Base\Models\Base;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Category extends Base
 {
     use Sluggable;
     use SoftDeletes;
+    use SoftCascadeTrait;
     use PresentableTrait;
 
     protected $presenter = \App\Forum\Category\Presenters\CategoryPresenter::class;
@@ -39,6 +41,8 @@ class Category extends Base
     protected $casts = [
         'active' => 'boolean',
     ];
+
+    protected $softCascade = ['topics'];
 
     public function sluggable()
     {
