@@ -50,9 +50,11 @@
                     <a class="nav-link nav-link-custom" href="{{ route('manager.dashboard') }}">@lang('main.dashboard')</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="{{ route('manager.categories.index') }}">@lang('main.categories')</a>
-                </li>
+                @can('admin')
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="{{ route('manager.categories.index') }}">@lang('main.categories')</a>
+                    </li>
+                @endcan
 
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom" href="{{ route('manager.topics.index') }}">@lang('main.topics')</a>

@@ -59,7 +59,7 @@ class ForgotPasswordTest extends TestCase
             'email' => 'rafaelzorn@example.com',
         ]);
 
-        $this->post($this->passwordEmailPostRoute(), [
+        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
             'email' => $user->email,
         ]);
 
@@ -68,6 +68,9 @@ class ForgotPasswordTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class, function ($notification, $channels) use ($token) {
             return Hash::check($notification->token, $token->token) === true;
         });
+
+        $response->assertRedirect($this->passwordEmailGetRoute());
+        $response->assertSessionHas('status', 'We have e-mailed your password reset link!');
     }
 
     /** @test */
@@ -87,6 +90,6 @@ class ForgotPasswordTest extends TestCase
         ]);
 
         $response->assertRedirect($this->passwordEmailGetRoute());
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors("email", "We can't find a user with that e-mail address.");
     }
 }
