@@ -45,16 +45,22 @@ Execute as seeders
 
 ```
 php artisan db:seed
-````
+```
 
 Execute os testes
 
 ```
 phpunit
-````
+```
 
 ## Screenshots
 
+![Screenshot 1](https://image.ibb.co/jzEa50/home.png)
+![Screenshot 2](https://image.ibb.co/gaDJQ0/show.png)
+![Screenshot 3](https://image.ibb.co/duo7JL/login.png)
+![Screenshot 4](https://image.ibb.co/dxeQ50/topics.png)
+![Screenshot 5](https://image.ibb.co/mk6PXf/topics-form.png)
+
 ## Construído com
 
-* [Laravel 5.6](https://laravel.com)
+-   [Laravel 5.6](https://laravel.com)
