@@ -33,7 +33,7 @@
                                 <b>By</b> {{ $topic->user->name }} <b>in</b> {{ $topic->created_at->format('d/m/Y H:i') }}
                             </div>
 
-                            <p>{{ $topic->content }}</p>
+                            <p>{{ $topic->present()->cutContent(100) }}</p>
                         </div>
                     </div>
                 @endforeach

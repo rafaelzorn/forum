@@ -21,7 +21,7 @@
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1 col-sm-12">
                                         <div class="box-initials">
-                                            <span>R</span>
+                                            <span>{{ $topic->user->present()->firstLetterName }}</span>
                                         </div>
                                     </div>
 
@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="content">
-                                <p>{{ $topic->content }}</p>
+                                <p>{{ $topic->present()->cutContent(200) }}</p>
                             </div>
                         </div>
                     </a>

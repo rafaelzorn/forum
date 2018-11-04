@@ -59,11 +59,12 @@ class TopicTest extends TestCase
         $response->assertSuccessful();
 
         $topics->each(function($topic) use ($response) {
+            $response->assertSee($topic->user->present()->firstLetterName);
             $response->assertSee($topic->title);
             $response->assertSee($topic->category->name);
             $response->assertSee($topic->user->name);
             $response->assertSee($topic->created_at->format('d/m/Y H:i'));
-            $response->assertSee($topic->content);
+            $response->assertSee($topic->present()->cutContent(200));
         });
     }
 

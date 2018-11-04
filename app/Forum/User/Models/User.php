@@ -4,10 +4,14 @@ namespace App\Forum\User\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laracasts\Presenter\PresentableTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use PresentableTrait;
+
+    protected $presenter = \App\Forum\User\Presenters\UserPresenter::class;
 
     /**
      * The attributes that are mass assignable.
