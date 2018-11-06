@@ -12,6 +12,6 @@ class TopicPresenter extends BasePresenter
             return $this->content;
         }
 
-        return substr($this->content, 0, $lenght) . '...';
+        return str_limit($this->content, $lenght);
     }
 }

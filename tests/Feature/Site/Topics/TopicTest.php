@@ -53,7 +53,9 @@ class TopicTest extends TestCase
     /** @test */
     public function it_user_can_view_topics_list()
     {
-        $topics = factory(Topic::class, 2)->create();
+        $topics = factory(Topic::class, 2)->create([
+            'content' => str_random(300)
+        ]);
 
         $response = $this->get($this->topicIndexGetRoute());
         $response->assertSuccessful();
