@@ -26,4 +26,6 @@ return [
 
     'only_administrator_see_page'      => 'You must be an administrator to see this page.',
     'you_do_not_have_permission'       => 'You do not have permission.',
+
+    'no_users_found'                   => 'No users found',
 ];

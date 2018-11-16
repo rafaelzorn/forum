@@ -59,6 +59,12 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom" href="{{ route('manager.topics.index') }}">@lang('main.topics')</a>
                 </li>
+
+                @can('admin')
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="{{ route('manager.users.index') }}">@lang('main.users')</a>
+                    </li>
+                @endcan
             @endauth
         </ul>
     </div>

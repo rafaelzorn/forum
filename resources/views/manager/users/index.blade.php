@@ -7,8 +7,8 @@
             @include('layouts.includes.messages.error')
             @include('layouts.includes.messages.success')
 
-            <h4 class="page-title">@lang('main.categories')</h4>
-            <a href="{{ route('manager.categories.create') }}" class="btn btn-success btn-sm min-w-110">
+            <h4 class="page-title">@lang('main.users')</h4>
+            <a href="{{ route('manager.users.create') }}" class="btn btn-success btn-sm min-w-110">
                 <i class="fa fa-plus"></i>
                 @lang('main.new')
             </a>
@@ -21,23 +21,23 @@
                 <table class="table table-hover table-sm table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">@lang('main.name')</th>
-                            <th scope="col">@lang('main.active')</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th scope="col" style="width: 15%;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($categories->isNotEmpty())
-                            @foreach ($categories as $category)
+                        @if ($users->isNotEmpty())
+                            @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $category->name }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
-                                    <span class="badge badge-{{ $category->present()->colorLabelActive }}">{{ $category->present()->isActive }}</span>
-                                    </td>
-                                    <td>
-                                        <form method="POST" action="{{ route('manager.categories.destroy', $category->id) }}" class="form-horizontal">
+                                        <form method="POST" action="{{ route('manager.users.destroy', $user->id) }}" class="form-horizontal">
 
-                                        <a href="{{ route('manager.categories.edit', $category->id) }}" class="btn btn-info btn-sm">
+                                        <a href="{{ route('manager.users.edit', $user->id) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-edit"></i>
                                             @lang('main.edit')
                                         </a>
@@ -54,7 +54,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="3">@lang('messages.no_categories_found')</td>
+                                <td colspan="3">@lang('messages.no_users_found')</td>
                             </tr>
                         @endif
                     </tbody>

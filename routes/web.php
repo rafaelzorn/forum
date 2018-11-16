@@ -26,6 +26,9 @@ Route::group(['prefix' => 'manager', 'middleware' => ['auth'], 'as' => 'manager.
 
             # CATEGORIES
             Route::resource('categories', 'CategoriesController');
+
+            # USERS
+            Route::resource('users', 'UsersController');
         });
 
         # TOPICS

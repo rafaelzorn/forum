@@ -28,6 +28,7 @@ return [
     'home'                     => 'Home',
     'dashboard'                => 'Dashboard',
     'categories'               => 'Categories',
+    'users'                    => 'Users',
     'confirm'                  => 'Confirm',
     'reset'                    => 'Reset',
     'topics'                   => 'Topics',
@@ -55,4 +56,5 @@ return [
     'by'                       => 'By',
     'in'                       => 'in',
     'search'                   => 'Search',
+    'user'                     => 'User',
 ];
