@@ -57,4 +57,7 @@ return [
     'in'                       => 'in',
     'search'                   => 'Search',
     'user'                     => 'User',
+    'form_user'                => [
+        'user_is_an_administrator' => 'User is an administrator'
+    ]
 ];
