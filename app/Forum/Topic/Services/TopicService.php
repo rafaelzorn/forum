@@ -2,7 +2,7 @@
 
 namespace App\Forum\Topic\Services;
 
-use App\Forum\Topic\Repositories\TopicRepository;
+use App\Forum\Topic\Repositories\Contracts\TopicRepositoryInterface;
 use Exception;
 use Auth;
 use Lang;
@@ -11,7 +11,7 @@ class TopicService
 {
     private $topicRepository;
 
-    public function __construct(TopicRepository $topicRepository)
+    public function __construct(TopicRepositoryInterface $topicRepository)
     {
         $this->topicRepository = $topicRepository;
     }

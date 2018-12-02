@@ -46,4 +46,53 @@ class UsersController extends Controller
             'user'
         ));
     }
+
+    public function store(UserRequest $request)
+    {
+        $request = $this->userService->store($request->except('_token', '_method'));
+
+        session()->flash('message',[
+            'type' 	  => $request['type'],
+			'message' => $request['message']
+        ]);
+
+        return redirect()->route('manager.users.index');
+    }
+
+    public function edit($id)
+    {
+        $currentPage = $this->currentPage;
+        $edit        = true;
+        $user        = $this->userRepository->findOrFail($id);
+
+        return view('manager.users.form')->with(compact(
+            'currentPage',
+            'edit',
+            'user'
+        ));
+    }
+
+    public function update(UserRequest $request, $id)
+    {
+        $request = $this->userService->update($request->except('_token', '_method'), $id);
+
+        session()->flash('message',[
+            'type' 	  => $request['type'],
+			'message' => $request['message']
+        ]);
+
+        return redirect()->route('manager.users.index');
+    }
+
+    public function destroy($id)
+    {
+        $request = $this->userService->destroy($id);
+
+        session()->flash('message',[
+            'type' 	  => $request['type'],
+			'message' => $request['message']
+        ]);
+
+        return redirect()->route('manager.users.index');
+    }
 }

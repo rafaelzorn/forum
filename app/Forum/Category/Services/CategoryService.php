@@ -2,7 +2,7 @@
 
 namespace App\Forum\Category\Services;
 
-use App\Forum\Category\Repositories\CategoryRepository;
+use App\Forum\Category\Repositories\Contracts\CategoryRepositoryInterface;
 use Exception;
 use Lang;
 
@@ -10,7 +10,7 @@ class CategoryService
 {
     private $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }

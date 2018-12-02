@@ -28,4 +28,10 @@ return [
     'you_do_not_have_permission'       => 'You do not have permission.',
 
     'no_users_found'                   => 'No users found',
+    'user_successfully_registered'     => 'User successfully registered.',
+    'user_error_registered'            => 'User error registered.',
+    'user_successfully_updated'        => 'User successfully updated.',
+    'user_error_updated'               => 'User error updated.',
+    'user_deleted_successfully'        => 'User deleted successfully.',
+    'user_deleted_error'               => 'User deleted error.',
 ];

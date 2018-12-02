@@ -21,9 +21,9 @@
                 <table class="table table-hover table-sm table-bordered">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th>@lang('main.name')</th>
+                            <th>@lang('main.email')</th>
+                            <th>@lang('main.active')</th>
                             <th scope="col" style="width: 15%;"></th>
                         </tr>
                     </thead>
@@ -31,9 +31,11 @@
                         @if ($users->isNotEmpty())
                             @foreach ($users as $user)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                    <span class="badge badge-{{ $user->present()->colorLabelActive }}">{{ $user->present()->isActive }}</span>
+                                    </td>
                                     <td>
                                         <form method="POST" action="{{ route('manager.users.destroy', $user->id) }}" class="form-horizontal">
 

@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                    <span class="badge badge-{{ $category->present()->colorLabelActive }}">{{ $category->present()->isActive }}</span>
+                                        <span class="badge badge-{{ $category->present()->colorLabelActive }}">{{ $category->present()->isActive }}</span>
                                     </td>
                                     <td>
                                         <form method="POST" action="{{ route('manager.categories.destroy', $category->id) }}" class="form-horizontal">
