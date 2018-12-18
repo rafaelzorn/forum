@@ -22,7 +22,7 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-lg-4 col-12">
+                        <div class="col-lg-3 col-12">
                             <div class="form-group">
                                 <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name', $user->name) }}" placeholder="@lang('main.name')" maxlength="255" required autofocus>
 
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-12">
+                        <div class="col-lg-3 col-12">
                             <div class="form-group">
                                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email', $user->email) }}" placeholder="@lang('main.email')" maxlength="255" required>
 
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-12">
+                        <div class="col-lg-3 col-12">
                             <div class="form-group">
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="" placeholder="@lang('main.password')" maxlength="255" {{ $edit ? null : ' required' }}>
 
@@ -55,6 +55,12 @@
                                         {{ $errors->first('password') }}
                                     </div>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-12">
+                            <div class="form-group">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="@lang('main.confirm') @lang('main.password')" maxlength="255" {{ $edit ? null : ' required' }}>
                             </div>
                         </div>
                     </div>
