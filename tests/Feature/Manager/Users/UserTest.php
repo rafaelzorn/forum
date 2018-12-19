@@ -134,4 +134,25 @@ class UserTest extends TestCase
             'message' => 'User successfully registered.',
         ]);
     }
+
+    /** @test */
+    public function it_admin_cannot_create_a_user_without_name()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => '',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+        $response->assertSessionHasErrors(['name' => 'The name field is required.']);
+
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
 }
