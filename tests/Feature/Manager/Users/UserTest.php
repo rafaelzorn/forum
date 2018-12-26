@@ -155,4 +155,196 @@ class UserTest extends TestCase
         $this->assertTrue(session()->hasOldInput('is_admin'));
         $this->assertTrue(session()->hasOldInput('active'));
     }
+
+    /** @test */
+    public function it_admin_cannot_create_a_user_whose_name_exceeds_the_character_limit()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => str_random(256),
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+        $response->assertSessionHasErrors(['name' => 'The name may not be greater than 255 characters.']);
+
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
+    public function it_admin_cannot_create_a_user_without_email()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => '',
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['email' => 'The email field is required.']);
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
+    public function it_admin_cannot_create_a_user_whose_email_exceeds_the_character_limit()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => str_random(256),
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+        $response->assertSessionHasErrors(['email' => 'The email may not be greater than 255 characters.']);
+
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /* @test */
+    public function it_admin_can_not_create_a_user_with_an_existing_email()
+    {
+        $user = factory(User::class)->create([
+            'email' => 'userone@userone.com.br'
+        ]);
+
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['email' => 'The email has already been taken.']);
+
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /* @test */
+    public function it_admin_cannot_create_a_user_with_an_invalid_email()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => 'userone.com.br',
+            'password'              => '123456',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['email' => 'The email must be a valid email address.']);
+
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
+    public function it_admin_cannot_create_a_user_without_password()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '',
+            'password_confirmation' => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['password' => 'The password field is required.']);
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /* @test */
+    public function it_admin_cannot_create_a_user_whose_password_doesnt_have_the_minimum_of_characters()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '1234',
+            'password_confirmation' => '1234',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['password' => 'The password must be at least 6 characters.']);
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /* @test */
+    public function it_admin_cannot_create_a_user_when_the_password_confirmation_doesnt_match()
+    {
+        $response = $this->actingAs($this->admin)->from($this->userCreateGetRoute())->post($this->userStoreRoute(), [
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'password_confirmation' => '1234567',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userCreateGetRoute());
+
+        $response->assertSessionHasErrors(['password' => 'The password confirmation does not match.']);
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('name'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
+    public function it_admin_can_delete_a_user()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($this->admin)->from($this->userIndexGetRoute())->delete($this->userDeleteRoute($user->id));
+
+        $this->assertCount(0, User::all());
+        $response->assertRedirect($this->userIndexGetRoute());
+        $response->assertSessionHas('message', [
+            'type' => 'success',
+            'message' => 'User deleted successfully.',
+        ]);
+    }
 }

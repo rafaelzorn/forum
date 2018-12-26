@@ -48,7 +48,7 @@
 
                         <div class="col-lg-3 col-12">
                             <div class="form-group">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="" placeholder="@lang('main.password')" maxlength="255" {{ $edit ? null : ' required' }}>
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="" maxlength="255" placeholder="@lang('main.password')" {{ $edit ? null : ' required' }}>
 
                                 @if ($errors->has('password'))
                                     <div class="invalid-feedback">
