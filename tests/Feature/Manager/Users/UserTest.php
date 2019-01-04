@@ -334,6 +334,55 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    public function it_admin_can_view_a_edit_form()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($this->admin)->get($this->userEditGetRoute($user->id));
+        $response->assertSuccessful();
+
+        $response->assertViewHas(['currentPage', 'edit', 'user']);
+        $response->assertViewIs('manager.users.form');
+    }
+
+    /** @test */
+    public function it_admin_can_edit_a_user()
+    {
+        $user = factory(User::class)->create([
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $response = $this->actingAs($this->admin)->put($this->userUpdateRoute($user->id), [
+            'name'                  => 'User Two',
+            'email'                 => 'usertwo@usertwo.com.br',
+            'password'              => '1234567',
+            'password_confirmation' => '1234567',
+            'is_admin'              => false,
+            'active'                => false,
+        ]);
+
+        $this->assertCount(1, $users = User::all());
+
+        $user = $users->first();
+
+        $this->assertEquals('User Two', $user->name);
+        $this->assertEquals('usertwo@usertwo.com.br', $user->email);
+        $this->assertTrue(Hash::check('1234567', $user->password));
+        $this->assertEquals(false, $user->is_admin);
+        $this->assertEquals(false, $user->active);
+
+        $response->assertRedirect($this->userIndexGetRoute());
+        $response->assertSessionHas('message', [
+            'type' => 'success',
+            'message' => 'User successfully updated.',
+        ]);
+    }
+
+    /** @test */
     public function it_admin_can_delete_a_user()
     {
         $user = factory(User::class)->create();
