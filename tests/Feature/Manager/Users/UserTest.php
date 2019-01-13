@@ -383,6 +383,44 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    public function it_admin_cannot_edit_a_user_without_name()
+    {
+        $user = factory(User::class)->create([
+            'name'                  => 'User One',
+            'email'                 => 'userone@userone.com.br',
+            'password'              => '123456',
+            'is_admin'              => true,
+            'active'                => true,
+        ]);
+
+        $response = $this->actingAs($this->admin)->from($this->userEditGetRoute($user->id))->put($this->userUpdateRoute($user->id), [
+            'name'                  => '',
+            'email'                 => 'usertwo@usertwo.com.br',
+            'password'              => '1234567',
+            'password_confirmation' => '1234567',
+            'is_admin'              => false,
+            'active'                => false,
+        ]);
+
+        $this->assertCount(1, $users = User::all());
+
+        $user = $users->first();
+
+        $this->assertEquals('User One', $user->name);
+        $this->assertEquals('userone@userone.com.br', $user->email);
+        $this->assertTrue(Hash::check('123456', Hash::make($user->password)));
+        $this->assertEquals(true, $user->is_admin);
+        $this->assertEquals(true, $user->active);
+
+        $response->assertRedirect($this->userEditGetRoute($user->id));
+        $response->assertSessionHasErrors(['name' => 'The name field is required.']);
+
+        $this->assertTrue(session()->hasOldInput('email'));
+        $this->assertTrue(session()->hasOldInput('is_admin'));
+        $this->assertTrue(session()->hasOldInput('active'));
+    }
+
+    /** @test */
     public function it_admin_can_delete_a_user()
     {
         $user = factory(User::class)->create();
