@@ -1,66 +1,29 @@
-[![Build Status](https://travis-ci.org/rafaelzorn/forum.svg?branch=master)](https://travis-ci.org/rafaelzorn/forum)
-[![Test Coverage](https://img.shields.io/codecov/c/github/rafaelzorn/forum/master.svg)](https://codecov.io/github/rafaelzorn/forum?branch=master)
+<p align="center">
+   <h3 align="center">Forum</h3>
+</p>
 
-# FORUM
+---
 
-Projeto para estudo de TDD (Test Driven Development) utilizando framework Laravel ❤.
+## Overview
 
-Primeiro você tem que usar o seu Terminal para chegar ao diretório que você deseja armazenar o projeto. Então você executa:
+Project for study of TDD using Laravel framework. 
 
-```
-git clone git@github.com:rafaelzorn/forum.git
-```
+## Preview
 
-Acesse o diretório criado e você estará no diretório-raiz do projeto:
+![forum-prieview-1](./preview-1.png)
+![forum-prieview-2](./preview-2.png)
+![forum-prieview-3](./preview-3.png)
 
-```
-cd forum
-```
+## Running the project
 
-Instalar as dependências do projeto:
+- Clone this repository
+- Install all dependencies using the command `composer install`
+- Fill the `.env` file
+- Generate key `php artisan key:generate`
+- Execute migrations `php artisan migrate`
+- Execute seeders `php artisan db:seed`
+- Execute tests `phpunit`
 
-```
-composer install
-```
+## Used technologies
 
-Configure o .env
-
-```
-cp .env.example .env para configurar a instalação
-```
-
-Gere a chave unica
-
-```
-php artisan key:generate
-```
-
-Execute as migrations
-
-```
-php artisan migrate
-```
-
-Execute as seeders
-
-```
-php artisan db:seed
-```
-
-Execute os testes
-
-```
-phpunit
-```
-
-## Screenshots
-
-![Screenshot 1](https://image.ibb.co/jzEa50/home.png)
-![Screenshot 2](https://image.ibb.co/gaDJQ0/show.png)
-![Screenshot 3](https://image.ibb.co/duo7JL/login.png)
-![Screenshot 4](https://image.ibb.co/dxeQ50/topics.png)
-![Screenshot 5](https://image.ibb.co/mk6PXf/topics-form.png)
-
-## Construído com
-
--   [Laravel 5.6](https://laravel.com)
+- Laravel 5.6
