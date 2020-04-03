@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/rafaelzorn/forum.svg?branch=master)](https://travis-ci.org/rafaelzorn/forum)
+[![Test Coverage](https://img.shields.io/codecov/c/github/rafaelzorn/forum/master.svg)]
+
 <p align="center">
    <h3 align="center">Forum</h3>
 </p>
